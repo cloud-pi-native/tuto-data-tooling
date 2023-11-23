@@ -1,0 +1,21 @@
+{{- if .Values.swagger.ingress.enabled -}}
+{{- $fullName := include "data-tool.fullname" . -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-swagger
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
+spec:
+  rules:
+    - host: {{ .Values.swagger.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-swagger
+                port:
+                  number: 8080
+{{- end }}

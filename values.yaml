@@ -1,0 +1,172 @@
+general:
+  proxy:
+  noProxy:
+  
+importer:
+  schedule: "0 5 31 2 *"
+  tableName: "employee"
+  truncateTable: false
+  permission: SELECT
+  image:
+    pullPolicy: IfNotPresent
+    registry: "docker.io"
+    repository: "mi-data-tooling/aws-cli-unzip"
+    tag: "master"
+    secret: registry-pull-secret
+  bucket:
+    url: "s3.fr-par.scw.cloud"
+    port: "443"
+    name: "mi-dso-data-tooling-dev"
+    filePath: "depot/employee.csv"
+    destPath: "/data/file.csv"
+    ak: "SCW2WNFQB16E03VQV4ZW"
+    sk: "MySecret"
+    region: "fr-par"
+    passwordProtect: "PouetPouet"
+
+pgrest:
+  jwtSecret: "verysecretpowerfullwow"
+  anonRole: anon
+  service:
+    port: 3000
+  ingress:
+    enabled: true
+    host: postgrest.example.com
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
+  image:
+    repository: bitnami/postgrest
+    tag: 11.2.2-debian-11-r0
+    pullPolicy: IfNotPresent
+
+adminer:
+  enabled: true
+  config:
+    design: ""
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
+  service:
+    type: ClusterIP
+    port: "8081"
+  ingress:
+    enabled: true
+    hosts:
+      - adminer.example.com
+
+pgadmin4:
+  enabled: true
+  networkPolicy:
+    enabled: false
+  env:
+    password: "MyPassword"
+    email: "test@test.com"
+  image:
+    repository: crunchydata/crunchy-pgadmin4
+    tag: centos8-13.6-4.7.5
+  envVarsFromConfigMaps:
+    - pgadmin-cm
+  containerPorts:
+    http: 5050
+  service:
+    type: ClusterIP
+    port: 5050
+    targetPort: 5050
+  ingress:
+    enabled: true
+    hosts:
+      - host: pgadmin.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  VolumePermissions:
+    enabled: false
+  init:
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "250m"
+  securityContext: ""
+  containerSecurityContext:
+    enabled: false
+  podSecurityContext:
+    enabled: false
+
+global:
+  postgresql:
+    auth:
+      postgresPassword: "MyPGPassword"
+      username: "MyUserName"
+      password: "MyDbPassword"
+      database: "MyDb"
+
+# Contrainte de sécurité Openshift
+postgresql:
+  image:
+    debug: true
+    tag: "14.9.0"
+  fullnameOverride: postgres-demo
+  volumePermissions:
+    enabled: false
+    securityContext:
+      runAsUser: "auto"
+  securityContext:
+    enabled: false
+  shmVolume:
+    chmod:
+      enabled: false
+  containerSecurityContext:
+    enabled: false
+  podSecurityContext:
+    enabled: false
+  primary:
+    initdb:
+      scriptsConfigMap: init-pg-cm
+      user: "postgres"
+      password: "MyPGPassword"
+    volumePermissions:
+      enabled: false
+      securityContext:
+        runAsUser: "auto"
+    securityContext:
+      enabled: false
+    shmVolume:
+      chmod:
+        enabled: false
+    containerSecurityContext:
+      enabled: false
+    podSecurityContext:
+      enabled: false
+
+swagger:
+  image:
+    pullPolicy: IfNotPresent
+  ingress:
+    enabled: true
+    host: swagger-ui.example.com
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "250m"

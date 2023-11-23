@@ -1,0 +1,94 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-reload-data
+spec:
+  schedule: {{ .Values.importer.schedule }} #Set an incoherent date eg the job never starts (31/02), manual launch only
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        spec:
+          imagePullSecrets:
+            - name: {{ .Values.importer.image.secret }}
+          initContainers:
+            - name: {{ .Chart.Name }}-dataloader-s3
+              image: "{{ .Values.importer.image.registry }}/{{ .Values.importer.image.repository }}:{{ .Values.importer.image.tag }}"
+              resources:
+                requests:
+                  memory: "128Mi"
+                  cpu: "250m"
+                limits:
+                  memory: "128Mi"
+                  cpu: "250m"
+              imagePullPolicy: {{ .Values.importer.image.pullPolicy }}
+              env:
+                - name: BUCKET_HOST
+                  value: "{{ .Values.importer.bucket.url }}"
+                - name: BUCKET_PORT
+                  value: "{{ .Values.importer.bucket.port }}"
+                - name: BUCKET_NAME
+                  value: "{{ .Values.importer.bucket.name }}"
+                - name: TARGET_FILE
+                  value: "{{ .Values.importer.bucket.filePath }}"
+                - name: DEST_FILE
+                  value: "{{ .Values.importer.bucket.destPath }}"
+                - name: AWS_ACCESS_KEY_ID
+                  value: "{{ .Values.importer.bucket.ak }}"
+                - name: AWS_SECRET_ACCESS_KEY
+                  value: "{{ .Values.importer.bucket.sk }}"
+                - name: AWS_DEFAULT_REGION
+                  value:  "{{ .Values.importer.bucket.region }}"
+                - name: PASSWORD_PROTECT
+                  value: "{{ .Values.importer.bucket.passwordProtect }}"
+                - name: HTTP_PROXY
+                  value: "{{ .Values.general.proxy }}"
+                - name: HTTPS_PROXY
+                  value: "{{ .Values.general.proxy }}"
+                - name: NO_PROXY
+                  value: "{{ .Values.general.noProxy }}"
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                - name: download-script
+                  mountPath: /scripts
+              command: ["/scripts/download-s3.sh"]
+          containers:
+            - name: dataloader
+              image: postgres:12.1-alpine
+              resources:
+                requests:
+                  memory: "128Mi"
+                  cpu: "250m"
+                limits:
+                  memory: "128Mi"
+                  cpu: "250m"
+
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                - name: loader-script
+                  mountPath: /scripts
+              command: ["/scripts/load.sh"]
+              env:
+                - name: PGPASSWORD
+                  value: "{{ .Values.global.postgresql.auth.postgresPassword }}"
+                - name: PGUSER
+                  value: "postgres"
+                - name: PGDATABASE
+                  value: "{{ .Values.global.postgresql.auth.database}}"
+                - name: PG_SERVICENAME
+                  value: postgres-demo
+          volumes:
+            - name: loader-script
+              configMap:
+                defaultMode: 0770
+                name: loader-script
+            - name: download-script
+              configMap:
+                defaultMode: 0770
+                name: download-script
+            - name: data
+              emptyDir: {}
+          restartPolicy: Never

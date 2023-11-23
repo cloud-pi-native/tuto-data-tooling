@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-pg-cm
+data:
+  init.sql: |-
+    \c {{ .Values.global.postgresql.auth.database}}
+    create role {{ .Values.pgrest.anonRole }} nologin;
+    ALTER DEFAULT PRIVILEGES GRANT USAGE ON SCHEMAS to {{ .Values.pgrest.anonRole }};
+    ALTER DEFAULT PRIVILEGES GRANT SELECT ON TABLES to {{ .Values.pgrest.anonRole }};
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO {{ .Values.pgrest.anonRole }};
+    GRANT pg_read_all_data TO {{ .Values.pgrest.anonRole }};
+    grant {{ .Values.pgrest.anonRole }} to {{ .Values.global.postgresql.auth.username }};
+    DROP TABLE public.identites cascade;
+    CREATE EXTENSION IF NOT EXISTS "unaccent";
+
+    DROP EVENT TRIGGER pgrst_watch;
+    CREATE OR REPLACE FUNCTION pgrst_watch() RETURNS event_trigger
+      LANGUAGE plpgsql
+      AS $$
+    BEGIN
+      NOTIFY pgrst, 'reload schema';
+    END;
+    $$;
+
+    CREATE EVENT TRIGGER pgrst_watch
+      ON ddl_command_end
+      EXECUTE PROCEDURE pgrst_watch();
+      
+    CREATE TABLE public.identites
+    (
+        num_ordre character varying(15) COLLATE pg_catalog."default",
+        ind_chg character varying(10) COLLATE pg_catalog."default",
+        nom_officiel character varying(80) COLLATE pg_catalog."default",
+        prenoms_officiels character varying(80) COLLATE pg_catalog."default",
+        date_officielle date,
+        anc_nom character varying(80) COLLATE pg_catalog."default",
+        anc_prenoms character varying(80) COLLATE pg_catalog."default",
+        anc_date date,
+        nai_date_str character varying(10),
+        nai_lieu character varying(80) COLLATE pg_catalog."default",
+        nai_loc character varying(80) COLLATE pg_catalog."default",
+        sexe character varying(1) COLLATE pg_catalog."default"
+    );
+
+    CREATE OR REPLACE FUNCTION public.immutable_unaccent(regdictionary, text)
+      RETURNS text
+      LANGUAGE c IMMUTABLE PARALLEL SAFE STRICT AS
+    '$libdir/unaccent', 'unaccent_dict';
+
+    CREATE OR REPLACE FUNCTION public.f_unaccent(text)
+      RETURNS text
+      LANGUAGE sql IMMUTABLE PARALLEL SAFE STRICT
+    RETURN public.immutable_unaccent(regdictionary 'public.unaccent', $1);
+
+    CREATE OR REPLACE FUNCTION nom_officiel_q(identites)
+    RETURNS text AS $$
+      SELECT (regexp_replace(UPPER(f_unaccent(($1.nom_officiel))), '['',-]', ' ', 'g'));
+    $$ LANGUAGE SQL;
+
+    CREATE OR REPLACE FUNCTION prenoms_officiels_q(identites)
+    RETURNS text AS $$
+      SELECT (regexp_replace(UPPER(f_unaccent(($1.prenoms_officiels))), '['',-]', ' ', 'g'));
+    $$ LANGUAGE SQL;
+
+    CREATE OR REPLACE FUNCTION anc_nom_q(identites)
+    RETURNS text AS $$
+      SELECT (regexp_replace(UPPER(f_unaccent(($1.anc_nom))), '['',-]', ' ', 'g'));
+    $$ LANGUAGE SQL;
+
+    CREATE OR REPLACE FUNCTION anc_prenoms_q(identites)
+    RETURNS text AS $$
+      SELECT (regexp_replace(UPPER(f_unaccent(($1.anc_prenoms))), '['',-]', ' ', 'g'));
+    $$ LANGUAGE SQL;
+
+    CREATE OR REPLACE FUNCTION nai_date_y(identites)
+    RETURNS integer AS $$
+      SELECT (TO_NUMBER(substring($1.nai_date_str from 0 for 5),'S9999'));
+    $$ LANGUAGE SQL IMMUTABLE PARALLEL SAFE STRICT;
+
+    CREATE OR REPLACE FUNCTION nai_date(identites)
+    RETURNS date AS $$
+      SELECT TO_DATE($1.nai_date_str, 'YYYYMMDD');
+    $$ LANGUAGE SQL IMMUTABLE PARALLEL SAFE STRICT;
+
+    CREATE INDEX idx_nom_off ON identites (nom_officiel_q(identites));
+    CREATE INDEX idx_prenom_off ON identites (prenoms_officiels_q(identites));
+    CREATE INDEX idx_anc_nom ON identites (anc_nom_q(identites));
+    CREATE INDEX idx_anc_prenoms ON identites (anc_prenoms_q(identites));
+
+    CREATE INDEX idx_nai_year ON identites (nai_date_y(identites));
+    CREATE INDEX idx_nai_date ON identites (nai_date(identites));
+    GRANT SELECT ON ALL TABLES IN SCHEMA public TO {{ .Values.pgrest.anonRole }}

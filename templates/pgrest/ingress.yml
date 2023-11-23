@@ -1,0 +1,26 @@
+{{- if .Values.pgrest.ingress.enabled -}}
+{{- $fullName := include "data-tool.fullname" . -}}
+{{- $svcPort := .Values.pgrest.service.port -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
+  {{- with .Values.pgrest.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+    - host: {{ .Values.pgrest.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+{{- end }}

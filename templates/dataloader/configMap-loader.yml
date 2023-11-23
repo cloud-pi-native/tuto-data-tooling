@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loader-script
+data:
+  load.sh: |
+    #!/bin/sh
+    psql -h $PG_SERVICENAME -U $PGUSER -d $PGDATABASE -c "SET datestyle TO \"ISO, DMY\""
+    {{- if .Values.importer.truncateTable -}}
+    psql -h $PG_SERVICENAME -U $PGUSER -d $PGDATABASE -c "truncate table {{ .Values.importer.tableName }}"
+    {{- end -}}
+    psql -h $PG_SERVICENAME -U $PGUSER -d $PGDATABASE -c "\copy {{ .Values.importer.tableName }} FROM '/data/file.csv' WITH CSV HEADER DELIMITER ';'"
+    psql -h $PG_SERVICENAME -U $PGUSER -d $PGDATABASE -c "GRANT {{ .Values.importer.permission }} ON ALL TABLES IN SCHEMA public TO {{ .Values.pgrest.anonRole }}"
+
+

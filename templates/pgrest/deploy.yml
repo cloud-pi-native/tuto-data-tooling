@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "data-tool.fullname" . }}
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
+    app: dso-data-tool
+spec:
+  replicas: {{ .Values.pgrest.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      {{- include "data-tool.selectorLabels" . | nindent 6 }}
+      app: dso-data-tool
+  template:
+    metadata:
+      labels:
+        {{- include "data-tool.selectorLabels" . | nindent 8 }}
+        app: dso-data-tool
+    spec:
+      {{- with .Values.pgrest.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.pgrest.image.repository }}:{{ .Values.pgrest.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.pgrest.image.pullPolicy }}
+          args: ["/app/postgrest.conf"]
+          ports:
+            - name: http
+              containerPort: {{ .Values.pgrest.service.port }}
+              protocol: TCP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/postgrest.conf
+              subPath: postgrest.conf
+          resources:
+            {{- toYaml .Values.pgrest.resources | nindent 12 }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "data-tool.fullname" . }}-config

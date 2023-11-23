@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: download-script
+data:
+  download-s3.sh: |
+    #!/bin/sh
+    echo "download file $TARGET_FILE from S3 https://${BUCKET_HOST}:${BUCKET_PORT}"
+    aws --no-verify-ssl s3api get-object --bucket $BUCKET_NAME --endpoint-url https://${BUCKET_HOST}:${BUCKET_PORT} --key $TARGET_FILE $DEST_FILE
+    if ! [[ -z "${PASSWORD_PROTECT}" ]]; then
+      echo "unzip file with password protect"
+      unzip -P $PASSWORD_PROTECT $DEST_FILE -d /data
+      mv /data/*.csv /data/file.csv
+    elif [ "${TARGET_FILE##*.}" == "zip" ]; then 
+      echo "unzip file without password protect"
+      unzip $DEST_FILE -d /data
+      mv /data/*.csv /data/file.csv
+    else
+      echo "download CSV no operation needed"
+    fi
+
