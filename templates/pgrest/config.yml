@@ -22,3 +22,6 @@ data:
     # Port the postgrest process is listening on for http requests
     server-port = {{ .Values.pgrest.service.port }}
 
+    # log level
+    log-level = "{{ .Values.pgrest.loglevel }}"
+

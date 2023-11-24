@@ -27,6 +27,7 @@ importer:
 pgrest:
   jwtSecret: "verysecretpowerfullwow"
   anonRole: anon
+  loglevel: info
   service:
     port: 3000
   ingress:
