@@ -1,0 +1,12 @@
+dependencies:
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.2.2
+- name: adminer
+  repository: https://cetic.github.io/helm-charts
+  version: 0.2.1
+- name: pgadmin4
+  repository: https://helm.runix.net
+  version: 1.18.2
+digest: sha256:92a1c85c0d628ea4eaf7e0017f9036cf3517fd1d7ba83996acc1f0bfd2920d23
+generated: "2023-12-04T11:51:42.0948453+01:00"
