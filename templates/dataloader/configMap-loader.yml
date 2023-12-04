@@ -5,7 +5,6 @@ metadata:
 data:
   load.sh: |
     #!/bin/sh
-    psql -h $PG_SERVICENAME -U $PGUSER -d $PGDATABASE -c "SET datestyle TO \"ISO, DMY\""
     {{- if .Values.importer.truncateTable -}}
     psql -h $PG_SERVICENAME -U $PGUSER -d $PGDATABASE -c "truncate table {{ .Values.importer.tableName }}"
     {{- end -}}
