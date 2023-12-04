@@ -27,21 +27,22 @@ data:
       ON ddl_command_end
       EXECUTE PROCEDURE pgrst_watch();
       
-    CREATE TABLE public.identites
-    (
-        num_ordre character varying(15) COLLATE pg_catalog."default",
-        ind_chg character varying(10) COLLATE pg_catalog."default",
-        nom_officiel character varying(80) COLLATE pg_catalog."default",
-        prenoms_officiels character varying(80) COLLATE pg_catalog."default",
-        date_officielle date,
-        anc_nom character varying(80) COLLATE pg_catalog."default",
-        anc_prenoms character varying(80) COLLATE pg_catalog."default",
-        anc_date date,
-        nai_date_str character varying(10),
-        nai_lieu character varying(80) COLLATE pg_catalog."default",
-        nai_loc character varying(80) COLLATE pg_catalog."default",
-        sexe character varying(1) COLLATE pg_catalog."default"
-    );
+   CREATE TABLE public.identites
+  (
+      num_ordre character varying(17) COLLATE pg_catalog."default",
+      ind_chg character varying(2) COLLATE pg_catalog."default",
+      nom_officiel character varying(300) COLLATE pg_catalog."default",
+      prenoms_officiels character varying(300) COLLATE pg_catalog."default",
+      date_officielle date,
+      anc_nom character varying(300) COLLATE pg_catalog."default",
+      anc_prenoms character varying(300) COLLATE pg_catalog."default",
+      anc_date date,
+      nai_date_str character varying(10) COLLATE pg_catalog."default",
+      nai_lieu character varying(5) COLLATE pg_catalog."default",
+      nai_loc character varying(100) COLLATE pg_catalog."default",
+      sexe character varying(1) COLLATE pg_catalog."default",
+      dec_date character varying(10) COLLATE pg_catalog."default"
+  );
 
     CREATE OR REPLACE FUNCTION public.immutable_unaccent(regdictionary, text)
       RETURNS text
