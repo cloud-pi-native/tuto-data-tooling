@@ -6,11 +6,11 @@ data:
   init.sql: |-
     \c {{ .Values.global.postgresql.auth.database}}
     create role accred;
-    // create role {{ .Values.pgrest.anonRole }} nologin;
+    create role {{ .Values.pgrest.anonRole }} nologin;
     GRANT accred to {{ .Values.global.postgresql.auth.username }};
     GRANT usage on schema public to accred;
 
-    // grant {{ .Values.pgrest.anonRole }} to {{ .Values.global.postgresql.auth.username }};
+    grant {{ .Values.pgrest.anonRole }} to {{ .Values.global.postgresql.auth.username }};
     DROP TABLE public.identites cascade;
     CREATE EXTENSION IF NOT EXISTS "unaccent";
 
