@@ -6,14 +6,9 @@ general:
 importer:
   schedule: "0 5 31 2 *"
   tableName: "employee"
-  truncateTable: false
-  permission: SELECT
   image:
     pullPolicy: IfNotPresent
-    registry: "docker.io"
-    repository: "mi-data-tooling/aws-cli-unzip"
-    tag: "master"
-    secret: registry-pull-secret
+
   bucket:
     url: "s3.fr-par.scw.cloud"
     port: "443"
@@ -34,7 +29,7 @@ pgrest:
     port: 3001
   ingress:
     enabled: true
-    host: postgrest.example.com
+    host: api-tcnp-dev.d249.dev.forge.minint.fr
   resources:
     requests:
       memory: "256Mi"
@@ -68,7 +63,7 @@ adminer:
   ingress:
     enabled: false
     hosts:
-      - adminer.example.com
+      - adminer-tcnp-dev.d250.dev.forge.minint.fr
 
 pgadmin4:
   enabled: true
@@ -97,7 +92,7 @@ pgadmin4:
   ingress:
     enabled: true
     hosts:
-      - host: pgadmin.example.com
+      - host: pgadmin.dev.numerique-interieur.com
         paths:
           - path: /
             pathType: Prefix
@@ -187,7 +182,7 @@ swagger:
     pullPolicy: IfNotPresent
   ingress:
     enabled: true
-    host: swagger-ui.example.com
+    host: swagger-tcnp-dev.d251.dev.forge.minint.fr
   resources:
     requests:
       memory: "64Mi"
