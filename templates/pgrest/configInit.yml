@@ -33,11 +33,11 @@ data:
       ind_chg character varying(2) COLLATE pg_catalog."default",
       nom_officiel character varying(300) COLLATE pg_catalog."default",
       prenoms_officiels character varying(300) COLLATE pg_catalog."default",
-      date_officielle date,
+      date_officiel character varying(10) COLLATE pg_catalog."default",
       anc_nom character varying(300) COLLATE pg_catalog."default",
       anc_prenoms character varying(300) COLLATE pg_catalog."default",
-      anc_date date,
-      nai_date_str character varying(10) COLLATE pg_catalog."default",
+      anc_date character varying(10) COLLATE pg_catalog."default",
+      nai_date character varying(10) COLLATE pg_catalog."default",
       nai_lieu character varying(5) COLLATE pg_catalog."default",
       nai_loc character varying(100) COLLATE pg_catalog."default",
       dec_date character varying(10) COLLATE pg_catalog."default",
@@ -76,12 +76,12 @@ data:
 
     CREATE OR REPLACE FUNCTION nai_date_y(identites)
     RETURNS integer AS $$
-      SELECT (TO_NUMBER(substring($1.nai_date_str from 0 for 5),'S9999'));
+      SELECT (TO_NUMBER(substring($1.nai_date from 0 for 5),'S9999'));
     $$ LANGUAGE SQL IMMUTABLE PARALLEL SAFE STRICT;
 
     CREATE OR REPLACE FUNCTION nai_date(identites)
     RETURNS date AS $$
-      SELECT TO_DATE($1.nai_date_str, 'YYYYMMDD');
+      SELECT TO_DATE($1.nai_date, 'YYYYMMDD');
     $$ LANGUAGE SQL IMMUTABLE PARALLEL SAFE STRICT;
 
     CREATE INDEX idx_nom_off ON identites (nom_officiel_q(identites));
