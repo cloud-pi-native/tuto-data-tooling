@@ -94,7 +94,7 @@ pgadmin4:
       memory: "128Mi"
       cpu: "250m"
     limits:
-      memory: "512Mi"
+      memory: "256Mi"
       cpu: "500m"
   VolumePermissions:
     enabled: false
@@ -165,8 +165,8 @@ swagger:
     host: swagger-ui.example.com
   resources:
     requests:
-      memory: "128Mi"
-      cpu: "250m"
+      memory: "64Mi"
+      cpu: "100m"
     limits:
-      memory: "128Mi"
-      cpu: "250m"
+      memory: "64Mi"
+      cpu: "100m"
