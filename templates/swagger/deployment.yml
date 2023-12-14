@@ -25,5 +25,23 @@ spec:
           env:
             - name: URLS
               value: "[ { url: \"https://{{ .Values.pgrest.ingress.host }}\", name: \"Demo\" } ]"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 2
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.swagger.resources | nindent 12 }}
