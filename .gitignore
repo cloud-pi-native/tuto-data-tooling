@@ -1,1 +1,2 @@
 **/*.tgz
+dataloader/*.sops.yml
