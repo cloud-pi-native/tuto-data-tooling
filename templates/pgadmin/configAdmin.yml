@@ -4,4 +4,3 @@ metadata:
   name: pgadmin-cm
 data:
     PGADMIN_SETUP_EMAIL: {{ .Values.pgadmin4.env.email }}
-    PGADMIN_SETUP_PASSWORD: {{ .Values.pgadmin4.env.password }}

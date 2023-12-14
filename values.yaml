@@ -20,12 +20,9 @@ importer:
     filePath: "depot/employee.csv"
     destPath: "/data/file.csv"
     ak: "" # access key s3 (A générer et renseigner)
-    sk: "" # secret key s3 (A générer et renseigner)
     region: "fr-par"
-    passwordProtect: "" # mot de passe de protection s3 (A générer et renseigner)
 
 pgrest:
-  jwtSecret: "" # secret jwt (A générer et renseigner)
   anonRole: anon
   replicaCount: 2
   service:
@@ -60,7 +57,7 @@ adminer:
     type: ClusterIP
     port: "8081"
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - adminer.example.com
 
@@ -68,13 +65,13 @@ pgadmin4:
   enabled: true
   networkPolicy:
     enabled: false
-  env:
-    password: "" # mot de passe pgadmin (A générer et renseigner)
-    email: "test@test.com"
   image:
     repository: crunchydata/crunchy-pgadmin4
     tag: centos8-13.6-4.7.5
-  envVarsFromConfigMaps:
+  existingSecret: secret-tcnp
+  secretKeys:
+    pgadminPasswordKey: PGADMIN_PASSWORD
+  envVarsFromSecrets:
     - pgadmin-cm
   containerPorts:
     http: 5050
@@ -115,17 +112,15 @@ pgadmin4:
 global:
   postgresql:
     auth:
-      postgresPassword: "" # mot de passe superuser postgres (A générer et renseigner)
       username: "MyUserName"
-      password: "" # mot de passe du user applicatif postgres (A générer et renseigner)
-      database: "MyDb"
+      database: "tcnp"
 
 # Contrainte de sécurité Openshift
 postgresql:
   image:
-    debug: true
+    debug: false
     tag: "14.9.0"
-  fullnameOverride: postgres-demo
+  fullnameOverride: postgres-tcnp
   volumePermissions:
     enabled: false
     securityContext:
@@ -143,7 +138,6 @@ postgresql:
     initdb:
       scriptsConfigMap: init-pg-cm
       user: "postgres"
-      password: "" # mot de passe superuser postgres (A générer et renseigner)
     volumePermissions:
       enabled: false
       securityContext:

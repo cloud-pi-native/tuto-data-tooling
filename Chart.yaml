@@ -1,6 +1,6 @@
 apiVersion: v2
-name: data-tool
-description: A demo Java Helm chart for DSO tutorial
+name: tcnp-infra
+description: Chart helm to dpeloy tcnp
 
 # A chart can be either an 'application' or a 'library' chart.
 #
