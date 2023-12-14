@@ -71,7 +71,7 @@ pgadmin4:
   existingSecret: secret-tcnp
   secretKeys:
     pgadminPasswordKey: PGADMIN_PASSWORD
-  envVarsFromSecrets:
+  envVarsFromConfigMaps:
     - pgadmin-cm
   containerPorts:
     http: 5050
