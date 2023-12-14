@@ -9,6 +9,11 @@ data:
     db-uri       = "postgres://{{ .Values.global.postgresql.auth.username }}:{{ .Values.global.postgresql.auth.password }}@{{ .Values.postgresql.fullnameOverride }}:5432/{{ .Values.global.postgresql.auth.database }}"
     db-schemas = "public"
     openapi-server-proxy-uri = "https://{{ .Values.pgrest.ingress.host }}"
+    
+    db-max-rows=100
+
+    db-pool=30
+
     openapi-mode = "ignore-privileges"
 
     # The database role to use when no client authentication is provided.
