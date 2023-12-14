@@ -73,6 +73,8 @@ pgadmin4:
     pgadminPasswordKey: PGADMIN_PASSWORD
   envVarsFromConfigMaps:
     - pgadmin-cm
+  envVarsFromSecret:
+    - pgadmin-cm
   containerPorts:
     http: 5050
   service:
