@@ -71,7 +71,7 @@ pgadmin4:
     tag: centos8-13.6-4.7.5
   existingSecret: secret-tcnp
   secretKeys:
-    pgadminPasswordKey: PGADMIN_PASSWORD
+    pgadminPasswordKey: PGADMIN_SETUP_PASSWORD
   envVarsFromConfigMaps:
     - pgadmin-cm
   envVarsFromSecrets:
