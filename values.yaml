@@ -27,6 +27,7 @@ importer:
 pgrest:
   jwtSecret: "" # secret jwt (A générer et renseigner)
   anonRole: anon
+  replicaCount: 2
   service:
     port: 3000
   ingress:
@@ -34,10 +35,10 @@ pgrest:
     host: postgrest.example.com
   resources:
     requests:
-      memory: "128Mi"
+      memory: "256Mi"
       cpu: "250m"
     limits:
-      memory: "128Mi"
+      memory: "256Mi"
       cpu: "250m"
   image:
     repository: bitnami/postgrest
@@ -45,7 +46,7 @@ pgrest:
     pullPolicy: IfNotPresent
 
 adminer:
-  enabled: true
+  enabled: false
   config:
     design: ""
   resources:
