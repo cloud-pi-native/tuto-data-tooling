@@ -112,13 +112,14 @@ pgadmin4:
 global:
   postgresql:
     auth:
+      existingSecret: postgres-tcnp
       username: "MyUserName"
       database: "tcnp"
 
 # Contrainte de sécurité Openshift
 postgresql:
   image:
-    debug: false
+    debug: true
     tag: "14.9.0"
   fullnameOverride: postgres-tcnp
   volumePermissions:
@@ -135,6 +136,7 @@ postgresql:
   podSecurityContext:
     enabled: false
   primary:
+    extraEnvVarsSecret: postgres-tcnp
     initdb:
       scriptsConfigMap: init-pg-cm
       user: "postgres"
