@@ -27,12 +27,9 @@ importer:
 pgrest:
   jwtSecret: "" # secret jwt (A générer et renseigner)
   anonRole: anon
-<<<<<<< HEAD
   replicaCount: 2
-=======
   dbPool: 30
   dbMaxRows: 100
->>>>>>> 28458d4 (optimize)
   service:
     port: 3000
   ingress:
