@@ -17,6 +17,7 @@ spec:
         {{- include "data-tool.selectorLabels" . | nindent 8 }}
         app: tcnp-pgrest
         tier: backend
+        env: {{ .Values.environnement }}
     spec:
       {{- with .Values.pgrest.imagePullSecrets }}
       imagePullSecrets:

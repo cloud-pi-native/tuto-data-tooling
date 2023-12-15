@@ -1,4 +1,4 @@
-environnement: mi-preprod
+environnement: &environnement mi-preprod
 general:
   proxy:
   noProxy:
@@ -67,6 +67,7 @@ pgadmin4:
   commonLabels:
     app: tcnp-pgadmin4
     tier: front
+    env: *environnement
   networkPolicy:
     enabled: false
   image:
@@ -131,6 +132,7 @@ postgresql:
   commonLabels:
     app: tcnp-postgresql
     tier: db
+    env: *environnement
   volumePermissions:
     enabled: false
     securityContext:
