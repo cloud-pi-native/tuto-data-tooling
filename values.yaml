@@ -1,3 +1,4 @@
+environnement: &environnement mi-preprod
 general:
   proxy:
   noProxy:
@@ -20,14 +21,13 @@ importer:
     filePath: "depot/employee.csv"
     destPath: "/data/file.csv"
     ak: "" # access key s3 (A générer et renseigner)
-    sk: "" # secret key s3 (A générer et renseigner)
     region: "fr-par"
-    passwordProtect: "" # mot de passe de protection s3 (A générer et renseigner)
 
 pgrest:
-  jwtSecret: "" # secret jwt (A générer et renseigner)
   anonRole: anon
   replicaCount: 2
+  dbPool: 30
+  dbMaxRows: 100
   service:
     port: 3000
   ingress:
@@ -44,6 +44,10 @@ pgrest:
     repository: bitnami/postgrest
     tag: 11.2.2-debian-11-r0
     pullPolicy: IfNotPresent
+  hpa:
+    replicaCountMin: 3
+    replicaCountMax: 7
+    averageMemory: 80
 
 adminer:
   enabled: false
@@ -60,22 +64,28 @@ adminer:
     type: ClusterIP
     port: "8081"
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - adminer.example.com
 
 pgadmin4:
   enabled: true
+  commonLabels:
+    app: tcnp-pgadmin4
+    tier: front
+    env: *environnement
   networkPolicy:
     enabled: false
-  env:
-    password: "" # mot de passe pgadmin (A générer et renseigner)
-    email: "test@test.com"
   image:
     repository: crunchydata/crunchy-pgadmin4
     tag: centos8-13.6-4.7.5
+  existingSecret: secret-tcnp
+  secretKeys:
+    pgadminPasswordKey: PGADMIN_SETUP_PASSWORD
   envVarsFromConfigMaps:
     - pgadmin-cm
+  envVarsFromSecrets:
+    - secret-tcnp
   containerPorts:
     http: 5050
   service:
@@ -94,7 +104,7 @@ pgadmin4:
       memory: "128Mi"
       cpu: "250m"
     limits:
-      memory: "512Mi"
+      memory: "256Mi"
       cpu: "500m"
   VolumePermissions:
     enabled: false
@@ -115,17 +125,20 @@ pgadmin4:
 global:
   postgresql:
     auth:
-      postgresPassword: "" # mot de passe superuser postgres (A générer et renseigner)
+      existingSecret: postgres-tcnp
       username: "MyUserName"
-      password: "" # mot de passe du user applicatif postgres (A générer et renseigner)
-      database: "MyDb"
+      database: "tcnp"
 
 # Contrainte de sécurité Openshift
 postgresql:
   image:
     debug: true
     tag: "14.9.0"
-  fullnameOverride: postgres-demo
+  fullnameOverride: postgres-tcnp
+  commonLabels:
+    app: tcnp-postgresql
+    tier: db
+    env: *environnement
   volumePermissions:
     enabled: false
     securityContext:
@@ -140,10 +153,10 @@ postgresql:
   podSecurityContext:
     enabled: false
   primary:
+    extraEnvVarsSecret: postgres-tcnp
     initdb:
       scriptsConfigMap: init-pg-cm
       user: "postgres"
-      password: "" # mot de passe superuser postgres (A générer et renseigner)
     volumePermissions:
       enabled: false
       securityContext:
@@ -157,6 +170,8 @@ postgresql:
       enabled: false
     podSecurityContext:
       enabled: false
+    extendedConfiguration: |
+      max_connections = 210
 
 swagger:
   image:
@@ -166,8 +181,8 @@ swagger:
     host: swagger-ui.example.com
   resources:
     requests:
-      memory: "128Mi"
-      cpu: "250m"
+      memory: "64Mi"
+      cpu: "100m"
     limits:
-      memory: "128Mi"
-      cpu: "250m"
+      memory: "64Mi"
+      cpu: "100m"

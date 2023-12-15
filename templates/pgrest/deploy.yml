@@ -4,18 +4,20 @@ metadata:
   name: {{ include "data-tool.fullname" . }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
-    app: dso-data-tool
+    app: tcnp-pgrest
 spec:
   replicas: {{ .Values.pgrest.replicaCount | default 1 }}
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
-      app: dso-data-tool
+      app: tcnp-pgrest
   template:
     metadata:
       labels:
         {{- include "data-tool.selectorLabels" . | nindent 8 }}
-        app: dso-data-tool
+        app: tcnp-pgrest
+        tier: backend
+        env: {{ .Values.environnement }}
     spec:
       {{- with .Values.pgrest.imagePullSecrets }}
       imagePullSecrets:
@@ -26,6 +28,21 @@ spec:
           image: "{{ .Values.pgrest.image.repository }}:{{ .Values.pgrest.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.pgrest.image.pullPolicy }}
           args: ["/app/postgrest.conf"]
+          env:
+          - name: PGRST_JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: secret-tcnp
+                key: PGRST_JWT_SECRET
+          - name: PGRST_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: "{{ .Values.postgresql.fullnameOverride }}"
+                key: password
+          - name: PGRST_DB_USERNAME
+            value: "{{ .Values.global.postgresql.auth.username }}"
+          - name: PGRST_DB_URI
+            value: "postgres://$(PGRST_DB_USERNAME):$(PGRST_DB_PASSWORD)@{{ .Values.postgresql.fullnameOverride }}:5432/{{ .Values.global.postgresql.auth.database }}"
           ports:
             - name: http
               containerPort: {{ .Values.pgrest.service.port }}
@@ -34,6 +51,24 @@ spec:
             - name: config-volume
               mountPath: /app/postgrest.conf
               subPath: postgrest.conf
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 2
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.pgrest.resources | nindent 12 }}
       volumes:

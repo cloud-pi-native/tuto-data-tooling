@@ -3,16 +3,18 @@ kind: Deployment
 metadata:
   name: {{ include "data-tool.fullname" . }}-swagger
   labels:
-    app: dso-data-tool-swagger
+    app: tcnp-swagger
 spec:
   replicas: {{ .Values.replicaCount | default 1 }}
   selector:
     matchLabels:
-      app: dso-data-tool-swagger
+      app: tcnp-swagger
   template:
     metadata:
       labels:
-        app: dso-data-tool-swagger
+        app: tcnp-swagger
+        tier: frontend
+        env: {{ .Values.environnement }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -25,5 +27,23 @@ spec:
           env:
             - name: URLS
               value: "[ { url: \"https://{{ .Values.pgrest.ingress.host }}\", name: \"Demo\" } ]"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 2
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.swagger.resources | nindent 12 }}

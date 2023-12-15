@@ -1,0 +1,22 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  creationTimestamp: null
+  name: {{ include "data-tool.fullname" . }}
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
+    app: dso-data-tool
+spec:
+  minReplicas: {{ .Values.pgrest.hpa.replicaCountMin | default 2 }}
+  maxReplicas: {{ .Values.pgrest.hpa.replicaCountMax | default 7 }}
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "data-tool.fullname" . }}
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: {{ .Values.pgrest.hpa.averageMemory | default 80 }}

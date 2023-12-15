@@ -1,1 +1,3 @@
 **/*.tgz
+sops/*.yml
+sops/*.yaml

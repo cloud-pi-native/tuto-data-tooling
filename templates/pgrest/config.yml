@@ -6,23 +6,15 @@ data:
   postgrest.conf: |-
     # postgrest.conf
 
-    db-uri       = "postgres://{{ .Values.global.postgresql.auth.username }}:{{ .Values.global.postgresql.auth.password }}@{{ .Values.postgresql.fullnameOverride }}:5432/{{ .Values.global.postgresql.auth.database }}"
     db-schemas = "public"
     openapi-server-proxy-uri = "https://{{ .Values.pgrest.ingress.host }}"
     
-    db-max-rows=100
-
-    db-pool=30
-
     openapi-mode = "ignore-privileges"
 
     # The database role to use when no client authentication is provided.
     # Should differ from authenticator
     db-anon-role = "{{ .Values.pgrest.anonRole }}"
 
-    # The secret to verify the JWT for authenticated requests with.
-    # Needs to be 32 characters minimum.
-    jwt-secret           = "{{ .Values.pgrest.jwtSecret }}"
     jwt-secret-is-base64 = false
 
     # Port the postgrest process is listening on for http requests
@@ -31,3 +23,5 @@ data:
     # log level
     log-level = "{{ .Values.pgrest.loglevel }}"
 
+    db-pool = {{ .Values.pgrest.dbPool }}
+    db-max-rows = {{ .Values.pgrest.dbMaxRows }}

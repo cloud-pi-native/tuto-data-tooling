@@ -37,11 +37,17 @@ spec:
                 - name: AWS_ACCESS_KEY_ID
                   value: "{{ .Values.importer.bucket.ak }}"
                 - name: AWS_SECRET_ACCESS_KEY
-                  value: "{{ .Values.importer.bucket.sk }}"
+                  valueFrom:
+                    secretKeyRef:
+                      name: secret-tcnp
+                      key: AWS_SECRET_SECRET_KEY
                 - name: AWS_DEFAULT_REGION
                   value:  "{{ .Values.importer.bucket.region }}"
                 - name: PASSWORD_PROTECT
-                  value: "{{ .Values.importer.bucket.passwordProtect }}"
+                  valueFrom:
+                    secretKeyRef:
+                      name: secret-tcnp
+                      key: PASSWORD_PROTECT
                 - name: HTTP_PROXY
                   value: "{{ .Values.general.proxy }}"
                 - name: HTTPS_PROXY
@@ -73,13 +79,16 @@ spec:
               command: ["/scripts/load.sh"]
               env:
                 - name: PGPASSWORD
-                  value: "{{ .Values.global.postgresql.auth.postgresPassword }}"
+                  valueFrom:
+                    secretKeyRef:
+                      name: "{{ .Values.postgresql.fullnameOverride }}"
+                      key: postgres-password
                 - name: PGUSER
                   value: "postgres"
                 - name: PGDATABASE
                   value: "{{ .Values.global.postgresql.auth.database}}"
                 - name: PG_SERVICENAME
-                  value: postgres-demo
+                  value: "{{ .Values.postgresql.fullnameOverride }}"
           volumes:
             - name: loader-script
               configMap:
