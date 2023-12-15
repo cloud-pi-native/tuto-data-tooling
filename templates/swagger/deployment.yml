@@ -3,16 +3,17 @@ kind: Deployment
 metadata:
   name: {{ include "data-tool.fullname" . }}-swagger
   labels:
-    app: dso-data-tool-swagger
+    app: tcnp-swagger
 spec:
   replicas: {{ .Values.replicaCount | default 1 }}
   selector:
     matchLabels:
-      app: dso-data-tool-swagger
+      app: tcnp-swagger
   template:
     metadata:
       labels:
-        app: dso-data-tool-swagger
+        app: tcnp-swagger
+        tier: frontend
     spec:
       containers:
         - name: {{ .Chart.Name }}

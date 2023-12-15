@@ -4,18 +4,19 @@ metadata:
   name: {{ include "data-tool.fullname" . }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
-    app: dso-data-tool
+    app: tcnp-pgrest
 spec:
   replicas: {{ .Values.pgrest.replicaCount | default 1 }}
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
-      app: dso-data-tool
+      app: tcnp-pgrest
   template:
     metadata:
       labels:
         {{- include "data-tool.selectorLabels" . | nindent 8 }}
-        app: dso-data-tool
+        app: tcnp-pgrest
+        tier: backend
     spec:
       {{- with .Values.pgrest.imagePullSecrets }}
       imagePullSecrets:

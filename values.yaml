@@ -64,6 +64,9 @@ adminer:
 
 pgadmin4:
   enabled: true
+  commonLabels:
+    app: tcnp-pgadmin4
+    tier: front
   networkPolicy:
     enabled: false
   image:
@@ -125,6 +128,9 @@ postgresql:
     debug: true
     tag: "14.9.0"
   fullnameOverride: postgres-tcnp
+  commonLabels:
+    app: tcnp-postgresql
+    tier: db
   volumePermissions:
     enabled: false
     securityContext:
