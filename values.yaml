@@ -27,7 +27,12 @@ importer:
 pgrest:
   jwtSecret: "" # secret jwt (A générer et renseigner)
   anonRole: anon
+<<<<<<< HEAD
   replicaCount: 2
+=======
+  dbPool: 30
+  dbMaxRows: 100
+>>>>>>> 28458d4 (optimize)
   service:
     port: 3000
   ingress:
@@ -44,6 +49,10 @@ pgrest:
     repository: bitnami/postgrest
     tag: 11.2.2-debian-11-r0
     pullPolicy: IfNotPresent
+  hpa:
+    replicaCountMin: 3
+    replicaCountMax: 7
+    averageMemory: 80
 
 adminer:
   enabled: false
@@ -157,6 +166,8 @@ postgresql:
       enabled: false
     podSecurityContext:
       enabled: false
+    extendedConfiguration: |
+      max_connections = 210
 
 swagger:
   image:

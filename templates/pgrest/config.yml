@@ -10,10 +10,6 @@ data:
     db-schemas = "public"
     openapi-server-proxy-uri = "https://{{ .Values.pgrest.ingress.host }}"
     
-    db-max-rows=100
-
-    db-pool=30
-
     openapi-mode = "ignore-privileges"
 
     # The database role to use when no client authentication is provided.
@@ -31,3 +27,5 @@ data:
     # log level
     log-level = "{{ .Values.pgrest.loglevel }}"
 
+    db-pool = {{ .Values.pgrest.dbPool }}
+    db-max-rows = {{ .Values.pgrest.dbMaxRows }}
