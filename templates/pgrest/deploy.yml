@@ -53,20 +53,20 @@ spec:
               subPath: postgrest.conf
           readinessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /ready
+              port: {{ .Values.pgrest.admin.port }}
             initialDelaySeconds: 15
             timeoutSeconds: 1
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /live
+              port: {{ .Values.pgrest.admin.port }}
             failureThreshold: 2
             periodSeconds: 10
           startupProbe:
             httpGet:
-              path: /
-              port: http
+              path: /ready
+              port: {{ .Values.pgrest.admin.port }}
             failureThreshold: 30
             periodSeconds: 10
           resources:
