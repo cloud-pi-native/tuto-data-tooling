@@ -24,4 +24,19 @@ spec:
                 name: {{ $fullName }}
                 port:
                   number: {{ $svcPort }}
+          - path: /live
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $adminPort }}
+          - path: /ready
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $adminPort }}
+          
 {{- end }}
