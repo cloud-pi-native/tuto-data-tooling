@@ -16,12 +16,11 @@ spec:
   rules:
     - host: {{ .Values.pgrest.ingress.host }}
       http:
-        paths:
-          - path: /
+          - path: /ready
             pathType: Prefix
             backend:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ $adminPort }}
 {{- end }}

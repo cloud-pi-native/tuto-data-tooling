@@ -17,11 +17,11 @@ spec:
     - host: {{ .Values.pgrest.ingress.host }}
       http:
         paths:
-          - path: /
+          - path: /live
             pathType: Prefix
             backend:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ $adminPort }}
 {{- end }}
