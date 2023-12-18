@@ -5,7 +5,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ $fullName }}-ready
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
   {{- with .Values.pgrest.ingress.annotations }}
