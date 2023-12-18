@@ -16,6 +16,7 @@ spec:
   rules:
     - host: {{ .Values.pgrest.ingress.host }}
       http:
+        paths:
           - path: /ready
             pathType: Prefix
             backend:
