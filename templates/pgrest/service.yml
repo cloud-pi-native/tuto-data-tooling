@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.pgrest.admin.port }}
+      targetPort: httpAdmin
+      protocol: TCP
+      name: httpAdmin
   selector:
     {{- include "data-tool.selectorLabels" . | nindent 4 }}

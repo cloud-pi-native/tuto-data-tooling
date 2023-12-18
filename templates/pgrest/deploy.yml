@@ -47,6 +47,9 @@ spec:
             - name: http
               containerPort: {{ .Values.pgrest.service.port }}
               protocol: TCP
+            - name: httpAdmin
+              containerPort: {{ .Values.pgrest.admin.port }}
+              protocol: TCP
           volumeMounts:
             - name: config-volume
               mountPath: /app/postgrest.conf
