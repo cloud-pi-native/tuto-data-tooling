@@ -14,6 +14,8 @@ data:
     DROP TABLE public.identites cascade;
     CREATE EXTENSION IF NOT EXISTS "unaccent";
 
+    CREATE COLLATION ignore_accents_case_insensitive (provider = icu, locale = 'und-u-ks-level1', deterministic = false);
+
     DROP EVENT TRIGGER pgrst_watch;
     CREATE OR REPLACE FUNCTION pgrst_watch() RETURNS event_trigger
       LANGUAGE plpgsql
@@ -31,11 +33,11 @@ data:
      (
       num_ordre character varying(17) COLLATE pg_catalog."default",
       ind_chg character varying(2) COLLATE pg_catalog."default",
-      nom_officiel character varying(300) COLLATE pg_catalog."default",
-      prenoms_officiels character varying(300) COLLATE pg_catalog."default",
+      nom_officiel character varying(300) COLLATE ignore_accents_case_insensitive,
+      prenoms_officiels character varying(300) COLLATE ignore_accents_case_insensitive,
       date_officiel character varying(10) COLLATE pg_catalog."default",
-      anc_nom character varying(300) COLLATE pg_catalog."default",
-      anc_prenoms character varying(300) COLLATE pg_catalog."default",
+      anc_nom character varying(300) COLLATE ignore_accents_case_insensitive,
+      anc_prenoms character varying(300) COLLATE ignore_accents_case_insensitive,
       anc_date character varying(10) COLLATE pg_catalog."default",
       nai_date character varying(10) COLLATE pg_catalog."default",
       nai_lieu character varying(5) COLLATE pg_catalog."default",
