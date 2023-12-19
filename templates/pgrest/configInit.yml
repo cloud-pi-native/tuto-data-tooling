@@ -33,11 +33,11 @@ data:
      (
       num_ordre character varying(17) COLLATE pg_catalog."default",
       ind_chg character varying(2) COLLATE pg_catalog."default",
-      nom_officiel character varying(300) COLLATE ignore_accents_case_insensitive,
-      prenoms_officiels character varying(300) COLLATE ignore_accents_case_insensitive,
+      nom_officiel character varying(300) COLLATE pg_catalog."default",
+      prenoms_officiels character varying(300) COLLATE pg_catalog."default",
       date_officiel character varying(10) COLLATE pg_catalog."default",
-      anc_nom character varying(300) COLLATE ignore_accents_case_insensitive,
-      anc_prenoms character varying(300) COLLATE ignore_accents_case_insensitive,
+      anc_nom character varying(300) COLLATE pg_catalog."default",
+      anc_prenoms character varying(300) COLLATE pg_catalog."default",
       anc_date character varying(10) COLLATE pg_catalog."default",
       nai_date character varying(10) COLLATE pg_catalog."default",
       nai_lieu character varying(5) COLLATE pg_catalog."default",
@@ -63,7 +63,7 @@ data:
 
     CREATE OR REPLACE FUNCTION prenoms_officiels_q(identites)
     RETURNS text AS $$
-      SELECT (regexp_replace(UPPER(f_unaccent(($1.prenoms_officiels))), '['',-]', ' ', 'g'));
+      SELECT (regexp_replace(($1.prenoms_officiels), '['',-]', ' ', 'g')) COLLATE ignore_accents_case_insensitive;
     $$ LANGUAGE SQL;
 
     CREATE OR REPLACE FUNCTION anc_nom_q(identites)
