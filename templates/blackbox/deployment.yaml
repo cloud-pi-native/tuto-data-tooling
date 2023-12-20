@@ -35,4 +35,4 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ .Values.blackbox.deployment.name }}
+            name: {{ .Values.blackbox.name }}
