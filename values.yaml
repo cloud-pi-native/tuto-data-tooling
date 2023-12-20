@@ -140,7 +140,7 @@ postgresql:
     tier: db
     env: *environnement
   volumePermissions:
-    enabled: false
+    enabled: true
     securityContext:
       runAsUser: "auto"
   securityContext:
