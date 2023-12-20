@@ -156,6 +156,19 @@ postgresql:
     enabled: true
     serviceMonitor:
       enabled: true
+    livenessProbe:
+      enabled: true
+    readinessProbe:
+      enabled: true
+    startupProbe:
+      enabled: true
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+      requests:
+        memory: "128Mi"
+        cpu: "250m"
   primary:
     extraEnvVarsSecret: postgres-tcnp
     initdb:
