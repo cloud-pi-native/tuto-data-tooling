@@ -33,19 +33,19 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: "{{ .Values.blackbox.service.name }}"
             initialDelaySeconds: 15
             timeoutSeconds: 1
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: "{{ .Values.blackbox.service.name }}"
             failureThreshold: 2
             periodSeconds: 10
           startupProbe:
             httpGet:
               path: /
-              port: http
+              port: "{{ .Values.blackbox.service.name }}"
             failureThreshold: 30
             periodSeconds: 10
           resources:
