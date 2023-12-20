@@ -30,6 +30,24 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: "{{ .Values.blackbox.config.mountPath }}"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 2
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.blackbox.resources | nindent 12 }}
       volumes:
