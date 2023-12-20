@@ -152,6 +152,10 @@ postgresql:
     enabled: false
   podSecurityContext:
     enabled: false
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
   primary:
     extraEnvVarsSecret: postgres-tcnp
     initdb:
