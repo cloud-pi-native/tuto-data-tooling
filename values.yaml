@@ -143,6 +143,13 @@ postgresql:
     enabled: true
     securityContext:
       runAsUser: "auto"
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+      requests:
+        memory: "128Mi"
+        cpu: "250m"
   securityContext:
     enabled: false
   shmVolume:
