@@ -210,3 +210,24 @@ swagger:
     limits:
       memory: "64Mi"
       cpu: "100m"
+
+blackbox:
+  name: blackbox-exporter
+  replicaCount: 1
+  image:
+    repository: "bitnami/blackbox-exporter"
+    tag: "0.24.0"
+    pullPolicy: "IfNotPresent"
+  service:
+    port: "9115"
+    name: "blackbox-http"
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "100m"
+    limits:
+      memory: "64Mi"
+      cpu: "100m"
+  config:
+    mountPath: "/opt/bitnami/blackbox-exporter/conf/"
+    
