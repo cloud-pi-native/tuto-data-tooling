@@ -32,22 +32,17 @@ spec:
               mountPath: "{{ .Values.blackbox.config.mountPath }}"
           readinessProbe:
             httpGet:
-              path: /
+              path: /-/healthy
               port: "{{ .Values.blackbox.service.name }}"
-            initialDelaySeconds: 15
-            timeoutSeconds: 1
           livenessProbe:
             httpGet:
-              path: /
+              path: /-/healthy
               port: "{{ .Values.blackbox.service.name }}"
-            failureThreshold: 2
-            periodSeconds: 10
+            failureThreshold: 3
           startupProbe:
             httpGet:
-              path: /
+              path: /-/healthy
               port: "{{ .Values.blackbox.service.name }}"
-            failureThreshold: 30
-            periodSeconds: 10
           resources:
             {{- toYaml .Values.blackbox.resources | nindent 12 }}
       volumes:

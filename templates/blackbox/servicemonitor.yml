@@ -1,0 +1,36 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Values.blackbox.name }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
+    app: tcnp-blackbox
+spec:
+  endpoints:
+  - port: "{{ .Values.blackbox.service.name }}"
+    scheme: "http"
+    path: "/probe"
+    interval: "30s"
+    scrapeTimeout: "30s"
+    params:
+      module:
+      - "http_2xx"
+      target:
+      - "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.service.port }}/"
+    metricRelabelings:
+      - sourceLabels: [instance]
+        targetLabel: instance
+        replacement: "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.service.port }}/"
+        action: replace
+      - sourceLabels: [target]
+        targetLabel: target
+        replacement: "pgrest"
+        action: replace
+
+  selector:
+    matchLabels:
+      {{- include "data-tool.selectorLabels" . | nindent 6 }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace | quote }}
