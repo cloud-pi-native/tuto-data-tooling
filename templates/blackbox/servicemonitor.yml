@@ -17,11 +17,11 @@ spec:
       module:
       - "http_2xx"
       target:
-      - "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.service.port }}/"
+      - "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.admin.port }}/live"
     metricRelabelings:
       - sourceLabels: [instance]
         targetLabel: instance
-        replacement: "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.service.port }}/"
+        replacement: "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.admin.port }}/live"
         action: replace
       - sourceLabels: [target]
         targetLabel: target
