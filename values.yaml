@@ -232,4 +232,5 @@ blackbox:
       cpu: "100m"
   config:
     mountPath: "/opt/bitnami/blackbox-exporter/conf/"
+    credential_file: "credential.token"
     
