@@ -30,6 +30,8 @@ pgrest:
   dbMaxRows: 100
   service:
     port: 3000
+  admin:
+    port: 3001
   ingress:
     enabled: true
     host: postgrest.example.com
