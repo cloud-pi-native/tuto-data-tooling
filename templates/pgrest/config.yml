@@ -5,6 +5,7 @@ metadata:
 data:
   postgrest.conf: |-
     # postgrest.conf
+    admin-server-port = {{ .Values.pgrest.admin.port }}
 
     db-schemas = "public"
     openapi-server-proxy-uri = "https://{{ .Values.pgrest.ingress.host }}"

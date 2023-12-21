@@ -47,26 +47,29 @@ spec:
             - name: http
               containerPort: {{ .Values.pgrest.service.port }}
               protocol: TCP
+            - name: http-admin
+              containerPort: {{ .Values.pgrest.admin.port }}
+              protocol: TCP
           volumeMounts:
             - name: config-volume
               mountPath: /app/postgrest.conf
               subPath: postgrest.conf
           readinessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /ready
+              port: {{ .Values.pgrest.admin.port }}
             initialDelaySeconds: 15
             timeoutSeconds: 1
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /live
+              port: {{ .Values.pgrest.admin.port }}
             failureThreshold: 2
             periodSeconds: 10
           startupProbe:
             httpGet:
-              path: /
-              port: http
+              path: /ready
+              port: {{ .Values.pgrest.admin.port }}
             failureThreshold: 30
             periodSeconds: 10
           resources:
