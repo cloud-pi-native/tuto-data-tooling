@@ -23,6 +23,7 @@ spec:
         - name: {{ .Values.blackbox.name }}
           image: "{{ .Values.blackbox.image.repository }}:{{ .Values.blackbox.image.tag }}"
           imagePullPolicy: {{ .Values.blackbox.image.pullPolicy }}
+          args: ["--config.file", "{{ .Values.blackbox.config.mountPath }}/config.yml"]
           ports:
             - name: "{{ .Values.blackbox.service.name }}"
               containerPort: {{ .Values.blackbox.service.port }}
@@ -30,6 +31,8 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: "{{ .Values.blackbox.config.mountPath }}"
+            - name: token-volume
+              mountPath: "{{ .Values.blackbox.config.credentialPath }}"
           readinessProbe:
             httpGet:
               path: /-/healthy
@@ -49,3 +52,6 @@ spec:
         - name: config-volume
           configMap:
             name: {{ .Values.blackbox.name }}
+        - name: token-volume
+          secret:
+            secretName: blackbox-exporter-token
