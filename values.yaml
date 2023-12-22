@@ -25,7 +25,7 @@ importer:
 
 pgrest:
   anonRole: anon
-  replicaCount: 2
+  replicaCount: 1
   dbPool: 30
   dbMaxRows: 100
   service:
@@ -47,7 +47,7 @@ pgrest:
     tag: 11.2.2-debian-11-r0
     pullPolicy: IfNotPresent
   hpa:
-    replicaCountMin: 3
+    replicaCountMin: 1
     replicaCountMax: 7
     averageMemory: 80
 
@@ -142,9 +142,16 @@ postgresql:
     tier: db
     env: *environnement
   volumePermissions:
-    enabled: false
+    enabled: true
     securityContext:
       runAsUser: "auto"
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+      requests:
+        memory: "128Mi"
+        cpu: "250m"
   securityContext:
     enabled: false
   shmVolume:
@@ -154,6 +161,23 @@ postgresql:
     enabled: false
   podSecurityContext:
     enabled: false
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+    livenessProbe:
+      enabled: true
+    readinessProbe:
+      enabled: true
+    startupProbe:
+      enabled: true
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+      requests:
+        memory: "128Mi"
+        cpu: "250m"
   primary:
     extraEnvVarsSecret: postgres-tcnp
     initdb:
@@ -188,3 +212,25 @@ swagger:
     limits:
       memory: "64Mi"
       cpu: "100m"
+
+blackbox:
+  name: blackbox-exporter
+  replicaCount: 1
+  image:
+    repository: "bitnami/blackbox-exporter"
+    tag: "0.24.0"
+    pullPolicy: "IfNotPresent"
+  service:
+    port: "9115"
+    name: "blackbox-http"
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "100m"
+    limits:
+      memory: "64Mi"
+      cpu: "100m"
+  config:
+    mountPath: "/opt/bitnami/blackbox-exporter/conf/"
+    credential_file: "credential.token"
+    

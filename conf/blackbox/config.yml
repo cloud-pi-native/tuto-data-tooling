@@ -1,0 +1,14 @@
+modules:
+  http_4xx_no_auth:
+    prober: http
+    http:
+      method: GET
+      valid_status_codes: [400,401]  # 400 : bad auth, 401 : no auth
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: false
+      follow_redirects: true
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      tls_config:
+        insecure_skip_verify: true
+      

@@ -111,4 +111,4 @@ data:
 
     CREATE INDEX idx_nai_year ON identites (nai_date_y(identites));
     CREATE INDEX idx_nai_date ON identites (nai_date(identites));
-    GRANT all on public.identites to accred;
+    GRANT {{ .Values.importer.permission }} on public.identites to accred;
