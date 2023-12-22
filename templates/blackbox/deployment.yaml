@@ -29,7 +29,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: config-volume
-              mountPath: "{{ .Values.blackbox.config.mountPath }}/blackbox.yml"
+              mountPath: "/opt/bitnami/blackbox-exporter/"
             - name: token-volume
               mountPath: "{{ .Values.blackbox.config.credentialPath }}"
           readinessProbe:
