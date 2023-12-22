@@ -142,7 +142,7 @@ postgresql:
     tier: db
     env: *environnement
   volumePermissions:
-    enabled: true
+    enabled: false
     securityContext:
       runAsUser: "auto"
     resources:
@@ -162,7 +162,7 @@ postgresql:
   podSecurityContext:
     enabled: false
   metrics:
-    enabled: true
+    enabled: false
     serviceMonitor:
       enabled: true
     livenessProbe:
