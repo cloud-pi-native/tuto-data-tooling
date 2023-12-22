@@ -46,44 +46,6 @@ spec:
         targetLabel: target
         replacement: "pgrest-ready"
         action: replace
-  # - port: "{{ .Values.blackbox.service.name }}"
-  #   scheme: "http"
-  #   path: "/probe"
-  #   interval: "30s"
-  #   scrapeTimeout: "30s"
-  #   params:
-  #     module:
-  #     - "http_2xx_with_auth"
-  #     target:
-  #     - "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.service.port }}/identites?prenoms_officiels_q=ilike.Astérix&limit=10"
-  #   metricRelabelings:
-  #     - sourceLabels: [instance]
-  #       targetLabel: instance
-  #       replacement: "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.service.port }}/identites?prenoms_officiels_q=ilike.Astérix&limit=10"
-  #       action: replace
-  #     - sourceLabels: [target]
-  #       targetLabel: target
-  #       replacement: "pgrest-request-valid"
-  #       action: replace
-  - port: "{{ .Values.blackbox.service.name }}"
-    scheme: "http"
-    path: "/probe"
-    interval: "30s"
-    scrapeTimeout: "30s"
-    params:
-      module:
-      - "http_4xx_no_auth"
-      target:
-      - "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.service.port }}/identites?prenoms_officiels_q=ilike.Astérix&limit=10"
-    metricRelabelings:
-      - sourceLabels: [instance]
-        targetLabel: instance
-        replacement: "http://{{ include "data-tool.fullname" . }}:{{ .Values.pgrest.service.port }}/identites?prenoms_officiels_q=ilike.Astérix&limit=10"
-        action: replace
-      - sourceLabels: [target]
-        targetLabel: target
-        replacement: "pgrest-request-no-auth"
-        action: replace
 
   selector:
     matchLabels:
