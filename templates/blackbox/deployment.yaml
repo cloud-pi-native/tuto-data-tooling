@@ -30,8 +30,6 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: "{{ .Values.blackbox.config.mountPath }}"
-            - name: token-volume
-              mountPath: "{{ .Values.blackbox.config.mountPath }}"
           readinessProbe:
             httpGet:
               path: /-/healthy
@@ -51,6 +49,3 @@ spec:
         - name: config-volume
           configMap:
             name: {{ .Values.blackbox.name }}
-        - name: token-volume
-          secret:
-            secretName: {{ .Values.blackbox.name }}-token
