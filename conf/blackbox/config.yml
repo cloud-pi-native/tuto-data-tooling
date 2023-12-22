@@ -13,7 +13,7 @@ modules:
       preferred_ip_protocol: "ip4" # defaults to "ip6"
       ip_protocol_fallback: false  # no fallback to "ip6"
       authorization:
-        credentials_file: "{{ .Values.blackbox.config.mountPath }}/{{ .Values.blackbox.config.credential_file }}"
+        credentials_file: "{{ .Values.blackbox.config.credentialPath }}/credential.token"
 
   http_4xx_no_auth:
     prober: http

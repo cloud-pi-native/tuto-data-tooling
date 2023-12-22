@@ -30,6 +30,8 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: "{{ .Values.blackbox.config.mountPath }}"
+            - name: token-volume
+              mountPath: "{{ .Values.blackbox.config.credentialPath }}"
           readinessProbe:
             httpGet:
               path: /-/healthy
