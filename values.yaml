@@ -161,23 +161,6 @@ postgresql:
     enabled: false
   podSecurityContext:
     enabled: false
-  metrics:
-    enabled: false
-    serviceMonitor:
-      enabled: false
-    livenessProbe:
-      enabled: false
-    readinessProbe:
-      enabled: false
-    startupProbe:
-      enabled: false
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
-      requests:
-        memory: "128Mi"
-        cpu: "250m"
   primary:
     extraEnvVarsSecret: postgres-tcnp
     initdb:
