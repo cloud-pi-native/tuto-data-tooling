@@ -29,7 +29,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: config-volume
-              mountPath: "{{ .Values.blackbox.config.mountPath }}"
+              mountPath: "{{ .Values.blackbox.config.mountPath }}/blackbox.yml"
             - name: token-volume
               mountPath: "{{ .Values.blackbox.config.credentialPath }}"
           readinessProbe:

@@ -1,4 +1,9 @@
 modules:
+  http_2xx:
+    prober: http
+    http:
+      preferred_ip_protocol: "ip4"
+      
   http_2xx_with_auth:
     prober: http
     timeout: 5s
