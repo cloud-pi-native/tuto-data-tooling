@@ -1,12 +1,9 @@
 modules:
-<<<<<<< HEAD
   http_2xx:
     prober: http
     http:
       preferred_ip_protocol: "ip4"
       
-=======
->>>>>>> 2d14946 (add blackbox target)
   http_2xx_with_auth:
     prober: http
     timeout: 5s
@@ -21,11 +18,7 @@ modules:
       preferred_ip_protocol: "ip4" # defaults to "ip6"
       ip_protocol_fallback: false  # no fallback to "ip6"
       authorization:
-<<<<<<< HEAD
         credentials_file: "{{ .Values.blackbox.config.credentialPath }}/credential.token"
-=======
-        credentials_file: "{{ .Values.blackbox.config.mountPath }}/{{ .Values.blackbox.config.credential_file }}"
->>>>>>> 2d14946 (add blackbox target)
 
   http_4xx_no_auth:
     prober: http
