@@ -49,3 +49,6 @@ spec:
         - name: config-volume
           configMap:
             name: {{ .Values.blackbox.name }}
+        - name: token-volume
+          secret:
+            secretName: blackbox-exporter-token
