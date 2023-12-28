@@ -29,7 +29,7 @@ pgrest:
     port: 3001
   ingress:
     enabled: true
-    host: api-tcnp-dev.d249.dev.forge.minint.fr
+    host: api-tcnp.dev.minint.fr
   resources:
     requests:
       memory: "256Mi"
@@ -63,7 +63,7 @@ adminer:
   ingress:
     enabled: false
     hosts:
-      - adminer-tcnp-dev.d250.dev.forge.minint.fr
+      - adminer-tcnp-dev.minint.fr
 
 pgadmin4:
   enabled: true
@@ -92,7 +92,7 @@ pgadmin4:
   ingress:
     enabled: true
     hosts:
-      - host: pgadmin.dev.numerique-interieur.com
+      - host: pgadmin-tcnp-dev.minint.fr
         paths:
           - path: /
             pathType: Prefix
@@ -182,7 +182,7 @@ swagger:
     pullPolicy: IfNotPresent
   ingress:
     enabled: true
-    host: swagger-tcnp-dev.d251.dev.forge.minint.fr
+    host: swagger-ui-tcnp-dev.minint.fr
   resources:
     requests:
       memory: "64Mi"
