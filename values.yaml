@@ -1,4 +1,5 @@
-environnement: &environnement mi-preprod
+# environnement: &environnement ovh
+# phase: &phase pprod
 general:
   proxy:
   noProxy:
@@ -77,6 +78,7 @@ pgadmin4:
     app: tcnp-pgadmin4
     tier: front
     env: *environnement
+    phase: *phase
   networkPolicy:
     enabled: false
   image:
@@ -142,6 +144,7 @@ postgresql:
     app: tcnp-postgresql
     tier: db
     env: *environnement
+    phase: *phase
   volumePermissions:
     enabled: false
     securityContext:

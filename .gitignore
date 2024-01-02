@@ -1,3 +1,4 @@
 **/*.tgz
 sops/*.yml
 sops/*.yaml
+*.dec

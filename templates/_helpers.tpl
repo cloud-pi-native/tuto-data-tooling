@@ -40,6 +40,8 @@ helm.sh/chart: {{ include "data-tool.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+mi.gouv.fr/environnement: {{ required "Precisez une valeur pour .Values.environnement" .Values.environnement }}
+mi.gouv.fr/phase: {{ required "Precisez une valeur pour .Values.phase" .Values.phase }}
 {{- end }}
 
 {{/*
