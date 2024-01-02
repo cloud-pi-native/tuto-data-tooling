@@ -6,6 +6,7 @@ general:
   noProxy:
   
 importer:
+  delimiter: ";"
   schedule: "0 5 31 2 *"
   tableName: "identites"
   truncateTable: false
@@ -218,3 +219,5 @@ blackbox:
     mountPath: "/opt/bitnami/blackbox-exporter/conf/"
     credentialPath: "/opt/bitnami/blackbox-exporter/token/"
     
+prometheus:
+  refapp: demo-tcnp
