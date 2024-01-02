@@ -6,7 +6,7 @@ metadata:
     {{- include "data-tool.labels" . | nindent 4 }}
     app: tcnp-pgrest
 spec:
-  replicas: {{ .Values.pgrest.replicaCount | default 1 }}
+  replicas: {{ .Values.pgrest.hpa.replicaCountMin | default 1 }}
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
