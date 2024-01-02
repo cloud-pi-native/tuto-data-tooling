@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: pgrest-prometheus-rules
+spec:
+  groups:
+  - name: pgrest-rules
+    rules:
+    - alert: PostgrestAPIMonitor
+      expr: |
+        probe_success{namespace="{{ .Release.Namespace }}", target="pgrest-live"} == 0
+      annotations:
+        description: |
+          Le endpoint live du service pgrest ne repond plus correctement
+        summary: "[TCNP] PGRest live endpoint fail"
+      labels:
+        namespace: "{{ .Release.Namespace }}"
+        refapp: QCNP_G2R1
+        severity: critical
+
