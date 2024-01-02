@@ -1,5 +1,5 @@
 environnement: &environnement ovh
-phase: &phase pprod
+phase: &phase integ
 
 importer:
   image:
@@ -14,14 +14,18 @@ importer:
 pgrest:
   loglevel: "info" # "crit", "error", "warn", "info"
   ingress:
-    host: postgrest-pprod.dev.numerique-interieur.com
+    host: postgrest-int.dev.numerique-interieur.com
+  hpa:
+    replicaCountMin: 2
 
 adminer:
   ingress:
     hosts:
-      - adminer-pprod.dev.numerique-interieur.com
+      - adminer-int.dev.numerique-interieur.com
 
 postgresql:
+  image:
+    debug: true
   commonLabels:
     env: *environnement
     phase: *phase
@@ -32,11 +36,11 @@ pgadmin4:
     phase: *phase
   ingress:
     hosts:
-      - host: pgadmin-pprod.dev.numerique-interieur.com
+      - host: pgadmin-int.dev.numerique-interieur.com
         paths:
           - path: /
             pathType: Prefix
 
 swagger:
   ingress:
-    host: swagger-ui-pprod.dev.numerique-interieur.com
+    host: swagger-ui-int.dev.numerique-interieur.com

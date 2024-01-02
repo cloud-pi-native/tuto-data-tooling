@@ -7,7 +7,7 @@ general:
   
 importer:
   schedule: "0 5 31 2 *"
-  tableName: "employee"
+  tableName: "identites"
   truncateTable: false
   permission: SELECT
   image:
