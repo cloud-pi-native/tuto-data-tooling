@@ -1,5 +1,5 @@
 environnement: &environnement ovh
-phase: &phase preprod
+phase: &phase pprod
 
 importer:
   tableName: "identites"
