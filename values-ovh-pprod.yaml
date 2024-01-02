@@ -23,7 +23,15 @@ adminer:
     hosts:
       - adminer-pprod.dev.numerique-interieur.com
 
+postgresql:
+  commonLabels:
+    env: *environnement
+    phase: *phase
+
 pgadmin4:
+  commonLabels:
+    env: *environnement
+    phase: *phase
   ingress:
     hosts:
       - host: pgadmin-pprod.dev.numerique-interieur.com
