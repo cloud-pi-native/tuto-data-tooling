@@ -128,7 +128,7 @@ global:
   postgresql:
     auth:
       existingSecret: postgres-tcnp
-      username: "MyUserName"
+      username: "pgrest"
       database: "tcnp"
 
 # Contrainte de sécurité Openshift
