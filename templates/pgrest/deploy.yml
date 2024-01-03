@@ -10,7 +10,6 @@ spec:
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
-      tier: backend
   template:
     metadata:
       labels:
