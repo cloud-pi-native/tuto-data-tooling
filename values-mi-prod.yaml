@@ -9,7 +9,7 @@ importer:
     registry: "registry.dso.interieur.rie.gouv.fr"
     tag: "env-dev-mi"
   bucket:
-    url: "cluster-k8s-int-861d-tcnp-qualif.s3obj.ecs.objstore.r1.pi2.minint.fr"
+    url: "cluster-k8s-int-861d-tcnp-prod.s3obj.ecs.objstore.r1.pi2.minint.fr"
     port: "443"
     name: "vignal-data"
     filePath: "Extract_test_20231129_16h54_V2.zip"
