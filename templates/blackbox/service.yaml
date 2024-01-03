@@ -12,6 +12,6 @@ spec:
       protocol: TCP
       name: {{ .Values.blackbox.service.name }}
   selector:
-    app: tcnp-blackbox
+    {{- include "data-tool.selectorLabels" . | nindent 4 }}
     tier: monitoring
-    env: {{ .Values.environnement }}
+    composant: prometheus-blackbox
