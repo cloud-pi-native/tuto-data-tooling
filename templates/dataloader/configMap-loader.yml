@@ -11,5 +11,3 @@ data:
     psql -h $PG_SERVICENAME -U $PGUSER -d $PGDATABASE -c "truncate table {{ .Values.importer.tableName }}"
     {{ end }}
     psql -h $PG_SERVICENAME -U $PGUSER -d $PGDATABASE -c "\copy {{ .Values.importer.tableName }} FROM '/data/file.csv' WITH CSV HEADER DELIMITER '{{ .Values.importer.delimiter }}'"
-
-

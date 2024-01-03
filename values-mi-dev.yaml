@@ -1,0 +1,53 @@
+environnement: &environnement mi
+phase: &phase dev
+
+general:
+  proxy: "http://192.168.200.92:8888"
+
+importer:
+  image:
+    registry: "registry.dso.interieur.rie.gouv.fr"
+    tag: "env-dev-mi"
+  bucket:
+    url: "cluster-k8s-int-861d-tcnp-qualif.s3obj.ecs.objstore.r1.pi2.minint.fr"
+    port: "443"
+    name: "vignal-data"
+    filePath: "Extract_test_20231129_16h54_V2.zip"
+    destPath: "/data/file.csv.zip"
+
+pgrest:
+  loglevel: "info" # "crit", "error", "warn", "info"
+  ingress:
+    host: api-tcnp-dev.minint.fr
+  hpa:
+    replicaCountMin: 2
+
+adminer:
+  ingress:
+    hosts:
+      - adminer-tcnp-dev.minint.fr
+
+postgresql:
+  image:
+    debug: true
+  commonLabels:
+    env: *environnement
+    phase: *phase
+
+pgadmin4:
+  commonLabels:
+    env: *environnement
+    phase: *phase
+  ingress:
+    hosts:
+      - host: pgadmin-tcnp-dev.minint.fr
+        paths:
+          - path: /
+            pathType: Prefix
+
+swagger:
+  ingress:
+    host: swagger-ui-tcnp-dev.minint.fr
+
+prometheus:
+  refapp: QCNP_G2R1
