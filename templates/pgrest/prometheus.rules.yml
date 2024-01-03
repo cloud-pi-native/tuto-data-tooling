@@ -15,6 +15,6 @@ spec:
         summary: "[TCNP] PGRest live endpoint fail"
       labels:
         namespace: "{{ .Release.Namespace }}"
-        refapp: QCNP_G2R1
+        refapp: "{{ .Values.prometheus.refapp }}"
         severity: critical
 
