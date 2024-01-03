@@ -5,15 +5,19 @@ metadata:
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
     tier: backend
+    composant: postgrest
 spec:
   replicas: {{ .Values.pgrest.hpa.replicaCountMin | default 1 }}
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
+      tier: backend
+      composant: postgrest
   template:
     metadata:
       labels:
         {{- include "data-tool.labels" . | nindent 8 }}
+        composant: postgrest
         tier: backend
     spec:
       {{- with .Values.pgrest.imagePullSecrets }}

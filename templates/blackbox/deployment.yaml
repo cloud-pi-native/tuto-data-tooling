@@ -4,20 +4,21 @@ metadata:
   name: {{ .Values.blackbox.name }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
-    app: tcnp-blackbox
+    tier: monitoring
+    composant: prometheus-blackbox
 spec:
   replicas: {{ .Values.blackbox.replicaCount | default 1 }}
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
-      app: tcnp-blackbox
+      tier: monitoring
+      composant: prometheus-blackbox
   template:
     metadata:
       labels:
         {{- include "data-tool.selectorLabels" . | nindent 8 }}
-        app: tcnp-blackbox
         tier: monitoring
-        env: {{ .Values.environnement }}
+        composant: prometheus-blackbox
     spec:
       containers:
         - name: {{ .Values.blackbox.name }}

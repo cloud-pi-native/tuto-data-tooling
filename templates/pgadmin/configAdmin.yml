@@ -2,5 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: pgadmin-cm
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
 data:
     PGADMIN_SETUP_EMAIL: {{ .Values.pgadmin4.env.email }}
