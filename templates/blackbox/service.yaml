@@ -4,6 +4,8 @@ metadata:
   name: {{ .Values.blackbox.name }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
+    tier: monitoring
+    composant: prometheus-blackbox
 spec:
   type: ClusterIP
   ports:

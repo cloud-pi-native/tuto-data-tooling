@@ -17,3 +17,5 @@ spec:
       name: http-admin
   selector:
     {{- include "data-tool.selectorLabels" . | nindent 4 }}
+    tier: backend
+    composant: postgrest
