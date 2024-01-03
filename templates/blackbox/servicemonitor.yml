@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace | quote }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
-    {{- include "tcnp.labels.blackbox" . | nindent 6 }}
+    {{- include "tcnp.labels.blackbox" . | nindent 4 }}
 spec:
   endpoints:
   - port: "{{ .Values.blackbox.service.name }}"
