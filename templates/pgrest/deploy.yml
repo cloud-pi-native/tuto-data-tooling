@@ -4,21 +4,18 @@ metadata:
   name: {{ include "data-tool.fullname" . }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
-    tier: backend
-    composant: postgrest
+    {{- include "tcnp.labels.pgrest" . | nindent 4 }}
 spec:
   replicas: {{ .Values.pgrest.hpa.replicaCountMin | default 1 }}
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
-      tier: backend
-      composant: postgrest
+      {{- include "tcnp.labels.pgrest" . | nindent 6 }}
   template:
     metadata:
       labels:
         {{- include "data-tool.labels" . | nindent 8 }}
-        composant: postgrest
-        tier: backend
+        {{- include "tcnp.labels.pgrest" . | nindent 8 }}
     spec:
       {{- with .Values.pgrest.imagePullSecrets }}
       imagePullSecrets:

@@ -89,6 +89,7 @@ spec:
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
+      {{- include "tcnp.labels.blackbox" . | nindent 6}}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace | quote }}

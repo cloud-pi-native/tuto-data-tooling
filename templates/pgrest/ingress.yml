@@ -8,6 +8,7 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.pgrest" . | nindent 4 }}
   {{- with .Values.pgrest.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

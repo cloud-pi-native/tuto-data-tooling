@@ -4,6 +4,7 @@ metadata:
   name: download-script
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.dataloader" . | nindent 4}}
 data:
   download-s3.sh: |
     #!/bin/sh

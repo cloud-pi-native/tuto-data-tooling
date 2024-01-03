@@ -4,8 +4,7 @@ metadata:
   name: {{ .Values.blackbox.name }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
-    tier: monitoring
-    composant: prometheus-blackbox
+    {{- include "tcnp.labels.blackbox" . | nindent 4}}
 spec:
   type: ClusterIP
   ports:
@@ -15,5 +14,4 @@ spec:
       name: {{ .Values.blackbox.service.name }}
   selector:
     {{- include "data-tool.selectorLabels" . | nindent 4 }}
-    tier: monitoring
-    composant: prometheus-blackbox
+    {{- include "tcnp.labels.blackbox" . | nindent 4}}

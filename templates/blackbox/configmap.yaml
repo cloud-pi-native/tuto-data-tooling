@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.blackbox.name }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.blackbox" . | nindent 4}}
 data:
 {{ (tpl (.Files.Glob "conf/blackbox/*").AsConfig .) | indent 2 }}
     

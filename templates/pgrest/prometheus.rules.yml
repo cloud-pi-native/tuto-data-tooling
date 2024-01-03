@@ -4,6 +4,7 @@ metadata:
   name: pgrest-prometheus-rules
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.pgrest" . | nindent 4 }}
 spec:
   groups:
   - name: pgrest-rules

@@ -4,6 +4,7 @@ metadata:
   name: init-pg-cm
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.pgrest" . | nindent 4}}
 data:
   init.sql: |-
     \c {{ .Values.global.postgresql.auth.database}}

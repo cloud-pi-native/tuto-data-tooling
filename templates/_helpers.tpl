@@ -45,6 +45,21 @@ env: {{ .Values.environnement }}
 phase: {{ .Values.phase }}
 {{- end }}
 
+{{- define "tcnp.labels.pgrest" -}}
+tier: backend
+composant: postgrest
+{{- end }}
+
+{{- define "tcnp.labels.dataloader" -}}
+tier: backend
+composant: dataloader
+{{- end }}
+
+{{- define "tcnp.labels.blackbox" -}}
+tier: monitoring
+composant: prometheus-blackbox
+{{- end }}
+
 {{/*
 Selector labels
 */}}
