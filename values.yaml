@@ -30,7 +30,7 @@ pgrest:
   anonRole: anon
   replicaCount: 1
   dbPool: 30
-  dbMaxRows: 100
+  dbMaxRows: 300
   loglevel: "info" # "crit", "error", "warn", "info"
   service:
     port: 3000
