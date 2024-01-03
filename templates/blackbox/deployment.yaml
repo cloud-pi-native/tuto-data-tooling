@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "data-tool.selectorLabels" . | nindent 8 }}
+        {{- include "data-tool.labels" . | nindent 8 }}
         {{- include "tcnp.labels.blackbox" . | nindent 8 }}
     spec:
       containers:
