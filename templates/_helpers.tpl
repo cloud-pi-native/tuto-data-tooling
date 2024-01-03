@@ -40,7 +40,7 @@ helm.sh/chart: {{ include "data-tool.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app: {{ include "data-tool.name" }}
+app: {{ include "data-tool.name" . }}
 env: {{ .Values.environnement }}
 phase: {{ .Values.phase }}
 {{- end }}
