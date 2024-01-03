@@ -47,17 +47,17 @@ phase: {{ .Values.phase }}
 
 {{- define "tcnp.labels.pgrest" -}}
 tier: backend
-composant: postgrest
+component: postgrest
 {{- end }}
 
 {{- define "tcnp.labels.dataloader" -}}
 tier: backend
-composant: dataloader
+component: dataloader
 {{- end }}
 
 {{- define "tcnp.labels.blackbox" -}}
 tier: monitoring
-composant: prometheus-blackbox
+component: prometheus-blackbox
 {{- end }}
 
 {{/*
