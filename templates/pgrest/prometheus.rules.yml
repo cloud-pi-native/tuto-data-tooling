@@ -2,6 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: pgrest-prometheus-rules
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
 spec:
   groups:
   - name: pgrest-rules

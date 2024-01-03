@@ -2,6 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "data-tool.fullname" . }}-config
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
 data:
   postgrest.conf: |-
     # postgrest.conf
