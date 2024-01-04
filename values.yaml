@@ -1,11 +1,14 @@
-environnement: &environnement mi-preprod
+# environnement: &environnement ovh
+# phase: &phase pprod
+
 general:
   proxy:
   noProxy:
   
 importer:
+  delimiter: ";"
   schedule: "0 5 31 2 *"
-  tableName: "employee"
+  tableName: "identites"
   truncateTable: false
   permission: SELECT
   image:
@@ -27,7 +30,7 @@ pgrest:
   anonRole: anon
   replicaCount: 1
   dbPool: 30
-  dbMaxRows: 100
+  dbMaxRows: 300
   loglevel: "info" # "crit", "error", "warn", "info"
   service:
     port: 3000
@@ -76,7 +79,6 @@ pgadmin4:
   commonLabels:
     app: tcnp-pgadmin4
     tier: front
-    env: *environnement
   networkPolicy:
     enabled: false
   image:
@@ -141,7 +143,6 @@ postgresql:
   commonLabels:
     app: tcnp-postgresql
     tier: db
-    env: *environnement
   volumePermissions:
     enabled: false
     securityContext:
@@ -163,6 +164,13 @@ postgresql:
   podSecurityContext:
     enabled: false
   primary:
+    resources:
+      requests:
+        memory: 1024Mi
+        cpu: 2000m
+      limits:
+        memory: 1024Mi
+        cpu: 2000m
     extraEnvVarsSecret: postgres-tcnp
     initdb:
       scriptsConfigMap: init-pg-cm
@@ -218,3 +226,5 @@ blackbox:
     mountPath: "/opt/bitnami/blackbox-exporter/conf/"
     credentialPath: "/opt/bitnami/blackbox-exporter/token/"
     
+prometheus:
+  refapp: demo-tcnp

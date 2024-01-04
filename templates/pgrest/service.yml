@@ -4,6 +4,7 @@ metadata:
   name: {{ include "data-tool.fullname" . }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.pgrest" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -17,3 +18,4 @@ spec:
       name: http-admin
   selector:
     {{- include "data-tool.selectorLabels" . | nindent 4 }}
+    {{- include "tcnp.labels.pgrest" . | nindent 4 }}

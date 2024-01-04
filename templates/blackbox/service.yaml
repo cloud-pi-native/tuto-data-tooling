@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.blackbox.name }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.blackbox" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -12,6 +13,5 @@ spec:
       protocol: TCP
       name: {{ .Values.blackbox.service.name }}
   selector:
-    app: tcnp-blackbox
-    tier: monitoring
-    env: {{ .Values.environnement }}
+    {{- include "data-tool.selectorLabels" . | nindent 4 }}
+    {{- include "tcnp.labels.blackbox" . | nindent 4 }}

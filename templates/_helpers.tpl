@@ -40,6 +40,24 @@ helm.sh/chart: {{ include "data-tool.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app: {{ include "data-tool.name" . }}
+env: {{ .Values.environnement }}
+phase: {{ .Values.phase }}
+{{- end }}
+
+{{- define "tcnp.labels.pgrest" -}}
+tier: backend
+component: postgrest
+{{- end }}
+
+{{- define "tcnp.labels.dataloader" -}}
+tier: backend
+component: dataloader
+{{- end }}
+
+{{- define "tcnp.labels.blackbox" -}}
+tier: monitoring
+component: prometheus-blackbox
 {{- end }}
 
 {{/*

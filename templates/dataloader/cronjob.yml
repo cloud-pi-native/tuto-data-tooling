@@ -2,6 +2,9 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cronjob-reload-data
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.dataloader" . | nindent 4 }}
 spec:
   schedule: {{ .Values.importer.schedule }} #Set an incoherent date eg the job never starts (31/02), manual launch only
   concurrencyPolicy: Forbid
@@ -23,6 +26,9 @@ spec:
                   memory: "128Mi"
                   cpu: "250m"
               imagePullPolicy: {{ .Values.importer.image.pullPolicy }}
+              envFrom:
+              - secretRef:
+                  name: secret-data-loader
               env:
                 - name: BUCKET_HOST
                   value: "{{ .Values.importer.bucket.url }}"
@@ -34,20 +40,8 @@ spec:
                   value: "{{ .Values.importer.bucket.filePath }}"
                 - name: DEST_FILE
                   value: "{{ .Values.importer.bucket.destPath }}"
-                - name: AWS_ACCESS_KEY_ID
-                  value: "{{ .Values.importer.bucket.ak }}"
-                - name: AWS_SECRET_ACCESS_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: secret-tcnp
-                      key: AWS_SECRET_SECRET_KEY
                 - name: AWS_DEFAULT_REGION
                   value:  "{{ .Values.importer.bucket.region }}"
-                - name: PASSWORD_PROTECT
-                  valueFrom:
-                    secretKeyRef:
-                      name: secret-tcnp
-                      key: PASSWORD_PROTECT
                 - name: HTTP_PROXY
                   value: "{{ .Values.general.proxy }}"
                 - name: HTTPS_PROXY

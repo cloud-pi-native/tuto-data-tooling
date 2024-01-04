@@ -1,6 +1,6 @@
 apiVersion: v2
 name: tcnp-infra
-description: Chart helm to dpeloy tcnp
+description: Chart helm to deploy tcnp
 
 # A chart can be either an 'application' or a 'library' chart.
 #

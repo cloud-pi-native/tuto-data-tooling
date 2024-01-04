@@ -1,11 +1,10 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  creationTimestamp: null
   name: {{ include "data-tool.fullname" . }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
-    app: dso-data-tool
+    {{- include "tcnp.labels.pgrest" . | nindent 4 }}
 spec:
   minReplicas: {{ .Values.pgrest.hpa.replicaCountMin | default 2 }}
   maxReplicas: {{ .Values.pgrest.hpa.replicaCountMax | default 7 }}

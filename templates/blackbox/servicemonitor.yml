@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace | quote }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
-    app: tcnp-blackbox
+    {{- include "tcnp.labels.blackbox" . | nindent 4 }}
 spec:
   endpoints:
   - port: "{{ .Values.blackbox.service.name }}"
@@ -88,6 +88,7 @@ spec:
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
+      {{- include "tcnp.labels.blackbox" . | nindent 6 }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace | quote }}

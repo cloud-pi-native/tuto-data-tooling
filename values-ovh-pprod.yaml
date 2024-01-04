@@ -1,0 +1,50 @@
+environnement: &environnement ovh
+phase: &phase pprod
+
+importer:
+  image:
+    registry: "harbor.apps.c6.numerique-interieur.com"
+  bucket:
+    url: "s3.fr-par.scw.cloud"
+    port: "443"
+    name: "mi-dso-data-tooling-dev"
+    filePath: "depot/Extract_test_20231129_16h54_V2.csv"
+    destPath: "/data/file.csv"
+
+pgrest:
+  loglevel: "info" # "crit", "error", "warn", "info"
+  ingress:
+    host: postgrest-pprod.dev.numerique-interieur.com
+
+adminer:
+  ingress:
+    hosts:
+      - adminer-pprod.dev.numerique-interieur.com
+
+postgresql:
+  primary:
+    resources:
+      requests:
+        memory: 1024Mi
+        cpu: 500m
+      limits:
+        memory: 1024Mi
+        cpu: 500m
+  commonLabels:
+    env: *environnement
+    phase: *phase
+
+pgadmin4:
+  commonLabels:
+    env: *environnement
+    phase: *phase
+  ingress:
+    hosts:
+      - host: pgadmin-pprod.dev.numerique-interieur.com
+        paths:
+          - path: /
+            pathType: Prefix
+
+swagger:
+  ingress:
+    host: swagger-ui-pprod.dev.numerique-interieur.com
