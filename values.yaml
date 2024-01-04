@@ -164,6 +164,13 @@ postgresql:
   podSecurityContext:
     enabled: false
   primary:
+    resources:
+      requests:
+        memory: 1024Mi
+        cpu: 2000m
+      limits:
+        memory: 1024Mi
+        cpu: 2000m
     extraEnvVarsSecret: postgres-tcnp
     initdb:
       scriptsConfigMap: init-pg-cm
