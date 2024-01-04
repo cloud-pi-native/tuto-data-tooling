@@ -22,6 +22,14 @@ adminer:
       - adminer-pprod.dev.numerique-interieur.com
 
 postgresql:
+  primary:
+    resources:
+      requests:
+        memory: 1024Mi
+        cpu: 500m
+      limits:
+        memory: 1024Mi
+        cpu: 500m
   commonLabels:
     env: *environnement
     phase: *phase

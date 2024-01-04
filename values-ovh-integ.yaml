@@ -24,6 +24,14 @@ adminer:
       - adminer-int.dev.numerique-interieur.com
 
 postgresql:
+  primary:
+    resources:
+      requests:
+        memory: 1024Mi
+        cpu: 500m
+      limits:
+        memory: 1024Mi
+        cpu: 500m
   image:
     debug: true
   commonLabels:
