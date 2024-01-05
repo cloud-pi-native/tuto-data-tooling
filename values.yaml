@@ -197,10 +197,6 @@ postgresql:
 
 swagger:
   fullnameOverride: swagger-ui
-  commonLabels:
-    app: tcnp-infra
-    tier: front
-    component: swagger
   image:
     pullPolicy: IfNotPresent
   ingress:

@@ -50,6 +50,11 @@ tier: backend
 component: postgrest
 {{- end }}
 
+{{- define "tcnp.labels.swagger" -}}
+tier: api
+component: swagger
+{{- end }}
+
 {{- define "tcnp.labels.dataloader" -}}
 tier: backend
 component: dataloader

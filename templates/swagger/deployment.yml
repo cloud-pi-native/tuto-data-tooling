@@ -1,20 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "data-tool.fullname" . }}-swagger
+  name: {{ .Values.swagger.fullnameOverride }}
   labels:
-    app: tcnp-swagger
+    {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.swagger" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount | default 1 }}
   selector:
     matchLabels:
-      app: tcnp-swagger
+      {{- include "data-tool.selectorLabels" . | nindent 6 }}
+      {{- include "tcnp.labels.pgrest" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: tcnp-swagger
-        tier: frontend
-        env: {{ .Values.environnement }}
+        {{- include "data-tool.labels" . | nindent 8 }}
+        {{- include "tcnp.labels.swagger" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
