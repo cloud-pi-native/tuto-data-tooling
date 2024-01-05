@@ -1,5 +1,5 @@
-# environnement: &environnement ovh
-# phase: &phase pprod
+environnement: &environnement ovh
+phase: &phase demo
 
 general:
   proxy:
@@ -238,8 +238,8 @@ prometheus-blackbox-exporter:
       tier: monitoring
       component: prometheus-blackbox
       app: 
-      env: 
-      phase: 
+      env: &environnement
+      phase: &phase
   resources:
     requests:
       memory: "64Mi"
@@ -305,7 +305,7 @@ prometheus-blackbox-exporter:
       additionalMetricsRelabels: {}    # Map of metric labels and values to add
       additionalRelabeling: []         # List of metric relabeling actions to run
   prometheusRule:
-    enabled: true
+    enabled: false
     additionalLabels:
       refapp: demo-tcnp
     rules:
