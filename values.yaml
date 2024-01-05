@@ -277,25 +277,25 @@ prometheus-blackbox-exporter:
       enabled: true
     targets:
     - name: pgrest-live
-      url: http://pgrest-tcnp/live
+      url: http://pgrest-tcnp:3001/live
       labels: {}
       interval: 15s
       scrapeTimeout: 15s
       module: http_2xx
     - name: pgrest-ready
-      url: http://pgrest-tcnp/ready
+      url: http://pgrest-tcnp:3001/ready
       labels: {}
       interval: 15s
       scrapeTimeout: 15s
       module: http_2xx
     - name: pgrest-request-valid
-      url: http://pgrest-tcnp/identites?prenoms_officiels_q=ilike.Astérix&limit=10
+      url: http://pgrest-tcnp:3000/identites?prenoms_officiels_q=ilike.Astérix&limit=10
       labels: {}
       interval: 15s
       scrapeTimeout: 15s
       module: http_2xx_with_auth
     - name: pgrest-request-no-auth
-      url: http://pgrest-tcnp/identites?prenoms_officiels_q=ilike.Astérix&limit=10
+      url: http://pgrest-tcnp:3000/identites?prenoms_officiels_q=ilike.Astérix&limit=10
       labels: {}
       interval: 15s
       scrapeTimeout: 15s
