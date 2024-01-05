@@ -35,3 +35,6 @@ dependencies:
   version: "1.18.2"
   repository: "https://helm.runix.net"
   condition: pgadmin4.enabled
+- name: prometheus-blackbox-exporter
+  version: "8.6.1"
+  repository: https://prometheus-community.github.io/helm-charts

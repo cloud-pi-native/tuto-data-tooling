@@ -228,3 +228,56 @@ blackbox:
     
 prometheus:
   refapp: demo-tcnp
+
+prometheus-blackbox-exporter:
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "100m"
+    limits:
+      memory: "64Mi"
+      cpu: "100m"
+  serviceAccount:
+    create: false
+  extraSecretMounts:
+    - name: token-volume
+      mountPath: /token
+      secretName: blackbox-exporter-token
+      readOnly: true
+      defaultMode: 420
+  config:
+    modules:
+      http_2xx:
+        prober: http
+        timeout: 5s
+        http:
+          valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+          follow_redirects: true
+          preferred_ip_protocol: "ip4"
+      http_2xx_with_auth:
+        prober: http
+        timeout: 5s
+        http:
+          valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+          method: GET
+          follow_redirects: true
+          fail_if_ssl: false
+          fail_if_not_ssl: false
+          tls_config:
+            insecure_skip_verify: true
+          preferred_ip_protocol: "ip4" # defaults to "ip6"
+          ip_protocol_fallback: false  # no fallback to "ip6"
+          authorization:
+            credentials_file: "/token/credential.token"
+      http_4xx_no_auth:
+        prober: http
+        http:
+          method: GET
+          valid_status_codes: [400,401]  # 400 : bad auth, 401 : no auth
+          preferred_ip_protocol: "ip4"
+          ip_protocol_fallback: false
+          follow_redirects: true
+          fail_if_ssl: false
+          fail_if_not_ssl: false
+          tls_config:
+            insecure_skip_verify: true
