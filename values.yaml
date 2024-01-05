@@ -296,27 +296,27 @@ prometheus-blackbox-exporter:
     selfMonitor:
       enabled: true
     targets:
-    - name: pgrest-live                # Human readable URL that will appear in Prometheus / AlertManager
-      url: http://pgrest-tcnp/live     # The URL that blackbox will scrape
-      labels: {}                       # Map of labels for ServiceMonitor. Overrides value set in `defaults`
-      interval: 15s                    # Scraping interval. Overrides value set in `defaults`
-      scrapeTimeout: 15s               # Scrape timeout. Overrides value set in `defaults`
-      module: http_2xx                 # Module used for scraping. Overrides value set in `defaults`
-      additionalMetricsRelabels: {}    # Map of metric labels and values to add
-      additionalRelabeling: []         # List of metric relabeling actions to run
-  prometheusRule:
-    enabled: false
-    # additionalLabels:
-    #   refapp: demo-tcnp
-    # rules:
-    # - alert: PostgrestAPIMonitor
-    #   expr: |
-    #     probe_success{namespace="{{ .Release.Namespace }}", target="pgrest-live"} == 0
-    #   annotations:
-    #     description: |
-    #       Le endpoint live du service pgrest ne repond plus correctement
-    #     summary: "[TCNP] PGRest live endpoint fail"
-    #   labels:
-    #     namespace: "{{ .Release.Namespace }}"
-    #     refapp: "{{ .Values.prometheus.refapp }}"
-    #     severity: critical
+    - name: pgrest-live
+      url: http://pgrest-tcnp/live
+      labels: {}
+      interval: 15s
+      scrapeTimeout: 15s
+      module: http_2xx
+    - name: pgrest-ready
+      url: http://pgrest-tcnp/ready
+      labels: {}
+      interval: 15s
+      scrapeTimeout: 15s
+      module: http_2xx
+    - name: pgrest-request-valid
+      url: http://pgrest-tcnp/identites?prenoms_officiels_q=ilike.Astérix&limit=10
+      labels: {}
+      interval: 15s
+      scrapeTimeout: 15s
+      module: http_2xx_with_auth
+    - name: pgrest-request-no-auth
+      url: http://pgrest-tcnp/identites?prenoms_officiels_q=ilike.Astérix&limit=10
+      labels: {}
+      interval: 15s
+      scrapeTimeout: 15s
+      module: http_4xx_no_auth
