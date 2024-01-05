@@ -60,11 +60,6 @@ tier: backend
 component: dataloader
 {{- end }}
 
-{{- define "tcnp.labels.blackbox" -}}
-tier: monitoring
-component: prometheus-blackbox
-{{- end }}
-
 {{/*
 Selector labels
 */}}
