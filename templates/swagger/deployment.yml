@@ -10,7 +10,7 @@ spec:
   selector:
     matchLabels:
       {{- include "data-tool.selectorLabels" . | nindent 6 }}
-      {{- include "tcnp.labels.pgrest" . | nindent 6 }}
+      {{- include "tcnp.labels.swagger" . | nindent 6 }}
   template:
     metadata:
       labels:
