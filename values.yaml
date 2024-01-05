@@ -76,6 +76,7 @@ adminer:
       - adminer.example.com
 
 pgadmin4:
+  fullnameOverride: pgadmin-tcnp
   enabled: true
   commonLabels:
     app: tcnp-pgadmin4
@@ -231,6 +232,7 @@ prometheus:
   refapp: demo-tcnp
 
 prometheus-blackbox-exporter:
+  fullnameOverride: blackbox-exporter
   resources:
     requests:
       memory: "64Mi"
