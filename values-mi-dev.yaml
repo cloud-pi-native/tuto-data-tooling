@@ -51,6 +51,7 @@ swagger:
 
 prometheus:
   refapp: QCNP_G2R1
+  enabledRules: true
 
 prometheus-blackbox-exporter:
   commonLabels:
