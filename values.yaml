@@ -238,8 +238,8 @@ prometheus-blackbox-exporter:
       tier: monitoring
       component: prometheus-blackbox
       app: 
-      env: &environnement
-      phase: &phase
+      env: *environnement
+      phase: *phase
   resources:
     requests:
       memory: "64Mi"
