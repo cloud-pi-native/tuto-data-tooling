@@ -27,6 +27,7 @@ importer:
     region: "fr-par"
 
 pgrest:
+  fullnameOverride: pgrest-tcnp
   anonRole: anon
   replicaCount: 1
   dbPool: 30

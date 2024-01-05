@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "data-tool.fullname" . }}
+  name: {{ .Values.pgrest.fullnameOverride }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
     {{- include "tcnp.labels.pgrest" . | nindent 4 }}
@@ -75,4 +75,4 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ include "data-tool.fullname" . }}-config
+            name: {{ .Values.pgrest.fullnameOverride }}-config
