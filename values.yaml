@@ -211,7 +211,7 @@ swagger:
       cpu: "100m"
     
 prometheus:
-  enabledRules: true
+  enabledRules: false
   refapp: demo-tcnp
 
 prometheus-blackbox-exporter:
