@@ -27,7 +27,7 @@ spec:
               protocol: TCP
           env:
             - name: URLS
-              value: "[ { url: \"https://{{ .Values.pgrest.ingress.host }}\", name: \"Demo\" } ]"
+              value: "[ { url: \"https://{{ .Values.pgrest.ingress.host }}\", name: \"TCNP\" } ]"
           readinessProbe:
             httpGet:
               path: /
