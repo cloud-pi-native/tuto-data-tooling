@@ -51,3 +51,8 @@ swagger:
 
 prometheus:
   refapp: QCNP_G2R1
+
+prometheus-blackbox-exporter:
+  commonLabels:
+    env: *environnement
+    phase: *phase

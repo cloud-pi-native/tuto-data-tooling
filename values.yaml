@@ -1,5 +1,5 @@
-environnement: &environnement ovh
-phase: &phase demo
+# environnement: &environnement ovh
+# phase: &phase demo
 
 general:
   proxy:
@@ -79,8 +79,9 @@ pgadmin4:
   fullnameOverride: pgadmin-tcnp
   enabled: true
   commonLabels:
-    app: tcnp-pgadmin4
+    app: tcnp-infra
     tier: front
+    component: pgadmin
   networkPolicy:
     enabled: false
   image:
@@ -143,8 +144,9 @@ postgresql:
     tag: "14.9.0"
   fullnameOverride: postgres-tcnp
   commonLabels:
-    app: tcnp-postgresql
+    app: tcnp-infra
     tier: db
+    component: postgresql
   volumePermissions:
     enabled: false
     securityContext:
@@ -194,6 +196,11 @@ postgresql:
       max_connections = 210
 
 swagger:
+  fullnameOverride: swagger-ui
+  commonLabels:
+    app: tcnp-infra
+    tier: front
+    component: swagger
   image:
     pullPolicy: IfNotPresent
   ingress:
@@ -233,13 +240,10 @@ prometheus:
 
 prometheus-blackbox-exporter:
   fullnameOverride: blackbox-exporter
-  pod:
-    labels:
-      tier: monitoring
-      component: prometheus-blackbox
-      app: 
-      env: *environnement
-      phase: *phase
+  commonLabels:
+    tier: monitoring
+    component: prometheus-blackbox
+    app: tcnp-infra
   resources:
     requests:
       memory: "64Mi"
@@ -306,17 +310,17 @@ prometheus-blackbox-exporter:
       additionalRelabeling: []         # List of metric relabeling actions to run
   prometheusRule:
     enabled: false
-    additionalLabels:
-      refapp: demo-tcnp
-    rules:
-    - alert: PostgrestAPIMonitor
-      expr: |
-        probe_success{namespace="{{ .Release.Namespace }}", target="pgrest-live"} == 0
-      annotations:
-        description: |
-          Le endpoint live du service pgrest ne repond plus correctement
-        summary: "[TCNP] PGRest live endpoint fail"
-      labels:
-        namespace: "{{ .Release.Namespace }}"
-        refapp: "{{ .Values.prometheus.refapp }}"
-        severity: critical
+    # additionalLabels:
+    #   refapp: demo-tcnp
+    # rules:
+    # - alert: PostgrestAPIMonitor
+    #   expr: |
+    #     probe_success{namespace="{{ .Release.Namespace }}", target="pgrest-live"} == 0
+    #   annotations:
+    #     description: |
+    #       Le endpoint live du service pgrest ne repond plus correctement
+    #     summary: "[TCNP] PGRest live endpoint fail"
+    #   labels:
+    #     namespace: "{{ .Release.Namespace }}"
+    #     refapp: "{{ .Values.prometheus.refapp }}"
+    #     severity: critical

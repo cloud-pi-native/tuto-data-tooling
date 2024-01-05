@@ -52,3 +52,8 @@ pgadmin4:
 swagger:
   ingress:
     host: swagger-ui-int.dev.numerique-interieur.com
+
+prometheus-blackbox-exporter:
+  commonLabels:
+    env: *environnement
+    phase: *phase
