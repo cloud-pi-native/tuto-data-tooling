@@ -75,4 +75,4 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ .Values.pgrest.fullnameOverride }}-config
+            name: {{ .Values.pgrest.fullnameOverride }}
