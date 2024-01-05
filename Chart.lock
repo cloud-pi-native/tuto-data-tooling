@@ -8,5 +8,8 @@ dependencies:
 - name: pgadmin4
   repository: https://helm.runix.net
   version: 1.18.2
-digest: sha256:92a1c85c0d628ea4eaf7e0017f9036cf3517fd1d7ba83996acc1f0bfd2920d23
-generated: "2023-12-04T11:51:42.0948453+01:00"
+- name: prometheus-blackbox-exporter
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 8.6.1
+digest: sha256:14709800a63c15c0f5601a22f9bea8eb1c1d2ed347967677e073ada768ca1d25
+generated: "2024-01-05T12:20:51.385848897+01:00"
