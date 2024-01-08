@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "data-tool.fullname" . }}
+  name: {{ .Values.pgrest.fullnameOverride }}
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
     {{- include "tcnp.labels.pgrest" . | nindent 4 }}
@@ -22,7 +22,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.pgrest.fullnameOverride }}
           image: "{{ .Values.pgrest.image.repository }}:{{ .Values.pgrest.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.pgrest.image.pullPolicy }}
           args: ["/app/postgrest.conf"]
@@ -75,4 +75,4 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ include "data-tool.fullname" . }}-config
+            name: {{ .Values.pgrest.fullnameOverride }}
