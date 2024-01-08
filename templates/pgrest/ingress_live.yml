@@ -9,11 +9,8 @@ metadata:
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
     {{- include "tcnp.labels.pgrest" . | nindent 4 }}
-  {{- with .Values.pgrest.ingress.annotations }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /live
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
 spec:
   rules:
     - host: {{ .Values.pgrest.ingress.host }}
