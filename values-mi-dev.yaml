@@ -50,4 +50,5 @@ swagger:
     host: swagger-ui-tcnp-dev.minint.fr
 
 prometheus:
+  enabledRules: true
   refapp: QCNP_G2R1

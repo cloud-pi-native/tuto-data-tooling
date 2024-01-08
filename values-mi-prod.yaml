@@ -50,4 +50,5 @@ swagger:
     host: swagger-ui-tcnp.minint.fr
 
 prometheus:
+  enabledRules: true
   refapp: ECNP_G2R1
