@@ -5,12 +5,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ $fullName }}-live
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
     {{- include "tcnp.labels.pgrest" . | nindent 4 }}
   {{- with .Values.pgrest.ingress.annotations }}
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /live
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
@@ -18,14 +19,7 @@ spec:
     - host: {{ .Values.pgrest.ingress.host }}
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ $fullName }}
-                port:
-                  number: {{ $svcPort }}
-          - path: /ready # 200 ok; 503 otherwise
+          - path: /health # 200 ok; 503 otherwise
             pathType: Exact
             backend:
               service:
