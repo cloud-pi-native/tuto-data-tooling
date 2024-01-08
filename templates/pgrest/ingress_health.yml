@@ -5,7 +5,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-live
+  name: {{ $fullName }}-health
   labels:
     {{- include "data-tool.labels" . | nindent 4 }}
     {{- include "tcnp.labels.pgrest" . | nindent 4 }}
@@ -17,7 +17,7 @@ spec:
       http:
         paths:
           - path: /health # 200 ok; 503 otherwise
-            pathType: Exact
+            pathType: Prefix
             backend:
               service:
                 name: {{ $fullName }}
