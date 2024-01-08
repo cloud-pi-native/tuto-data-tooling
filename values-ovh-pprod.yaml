@@ -48,3 +48,6 @@ pgadmin4:
 swagger:
   ingress:
     host: swagger-ui-pprod.dev.numerique-interieur.com
+
+prometheus:
+  enabledRules: true
