@@ -1,5 +1,5 @@
 {{- if .Values.pgrest.ingress.enabled -}}
-{{- $fullName := include "data-tool.fullname" . -}}
+{{- $fullName := .Values.pgrest.fullnameOverride  -}}
 {{- $svcPort := .Values.pgrest.service.port -}}
 {{- $adminPort := .Values.pgrest.admin.port -}}
 apiVersion: networking.k8s.io/v1

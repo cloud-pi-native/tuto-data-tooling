@@ -60,6 +60,11 @@ tier: monitoring
 component: prometheus-blackbox
 {{- end }}
 
+{{- define "tcnp.labels.swagger" -}}
+tier: api
+component: swagger
+{{- end }}
+
 {{/*
 Selector labels
 */}}
