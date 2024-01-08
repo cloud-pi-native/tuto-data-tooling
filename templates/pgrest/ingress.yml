@@ -25,8 +25,15 @@ spec:
                 name: {{ $fullName }}
                 port:
                   number: {{ $svcPort }}
+          - path: /live # 200 ok; 503 otherwise
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $adminPort }}
           - path: /ready # 200 ok; 503 otherwise
-            pathType: Exact
+            pathType: Prefix
             backend:
               service:
                 name: {{ $fullName }}
