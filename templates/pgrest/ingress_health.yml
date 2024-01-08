@@ -1,0 +1,29 @@
+{{- if .Values.pgrest.ingress.enabled -}}
+{{- $fullName := .Values.pgrest.fullnameOverride  -}}
+{{- $svcPort := .Values.pgrest.service.port -}}
+{{- $adminPort := .Values.pgrest.admin.port -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-health
+  labels:
+    {{- include "data-tool.labels" . | nindent 4 }}
+    {{- include "tcnp.labels.pgrest" . | nindent 4 }}
+  {{- with .Values.pgrest.ingresshealth.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+    - host: {{ .Values.pgrest.ingress.host }}
+      http:
+        paths:
+          - path: /health # 200 ok; 503 otherwise
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $adminPort }}
+          
+{{- end }}

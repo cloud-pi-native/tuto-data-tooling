@@ -40,6 +40,9 @@ pgrest:
   ingress:
     enabled: true
     host: postgrest.example.com
+  ingresshealth:
+    annotations:
+      haproxy.router.openshift.io/rewrite-target: /live
   resources:
     requests:
       memory: "256Mi"
